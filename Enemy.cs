@@ -1,9 +1,13 @@
+using gmtkjame2022rollthedice.Helpers;
+using gmtkjame2022rollthedice.Models;
 using Godot;
 using System;
 using System.Collections.Generic;
 
 public class Enemy : Area2D
 {
+    public Sprite Sprite { get; set; }
+
     [Export(PropertyHint.Range, "0, 500")]
     public int MoveSpeed { get; set; } = 150;
 
@@ -26,17 +30,27 @@ public class Enemy : Area2D
 
     public AnimationPlayer AnimationPlayer { get; set; }
 
+    public EnemyModel EnemyModel { get; set; }
+
     public override void _Ready()
     {
         // Nodes
+        Sprite = GetNode<Sprite>("Sprite");
         HealthBar = GetNode<HealthBar>("HealthBar");
         HealthBar.MaxHealth = InitialHealth;
         HealthBar.CurrentHealth = InitialHealth;
+
+        Sprite.Texture = Helpers.TextureFromImagePath(EnemyModel.SpritePath);
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         HealthBar.UpdateHealth(InitialHealth);
 
+    }
+
+    public void LoadEnemyModel(EnemyModel enemyModel)
+    {
+        EnemyModel = enemyModel;
     }
 
     public override void _Process(float delta)

@@ -13,7 +13,7 @@ _data = {
 [node name="Map" type="Node2D"]
 script = ExtResource( 3 )
 MaxEnemyCount = 50
-Lives = 2
+Lives = 10
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )
@@ -48,12 +48,12 @@ autostart = true
 [node name="Bullets" type="Node2D" parent="."]
 
 [node name="LifeLabel" type="Label" parent="."]
-margin_left = 1487.0
-margin_top = 1.13687e-13
-margin_right = 1570.0
-margin_bottom = 26.0
-rect_scale = Vector2( 5, 5 )
-text = "Lives: 20"
+margin_left = 1644.0
+margin_top = 842.0
+margin_right = 1729.0
+margin_bottom = 868.0
+rect_scale = Vector2( 3, 3 )
+text = "Lives: 10"
 align = 2
 
 [node name="Shop" parent="." instance=ExtResource( 4 )]
@@ -61,5 +61,22 @@ position = Vector2( 44, 769 )
 scale = Vector2( 2, 2 )
 Money = 400
 
+[node name="ContinueButton" type="Button" parent="."]
+pause_mode = 2
+margin_left = 1487.0
+margin_top = 962.0
+margin_right = 1626.0
+margin_bottom = 997.0
+rect_scale = Vector2( 3, 3 )
+text = "Start wave"
+
+[node name="WaveLabel" type="Label" parent="."]
+margin_left = 1579.0
+margin_top = 769.0
+margin_right = 1685.0
+margin_bottom = 783.0
+rect_scale = Vector2( 3, 3 )
+text = "Wave 1"
+align = 2
+
 [node name="TowerRandomiser" parent="." instance=ExtResource( 2 )]
-visible = false

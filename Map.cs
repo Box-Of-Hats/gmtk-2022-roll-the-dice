@@ -1,4 +1,5 @@
 using gmtkjame2022rollthedice;
+using gmtkjame2022rollthedice.Data;
 using gmtkjame2022rollthedice.Helpers;
 using Godot;
 using System;
@@ -20,6 +21,8 @@ public class Map : Node2D
     public Control SpawnBlocker { get; set; }
     public Label LifeLabel { get; set; }
     public TowerRandomiser TowerRandomiser { get; set; }
+    public Button ContinueButton { get; set; }
+    public Label WaveLabel { get; set; }
 
 
     // Spawners
@@ -52,6 +55,9 @@ public class Map : Node2D
     // Rotation offset for all cannon top math
     const float CannonRotationOffset = (float)Math.PI / 2f;
 
+
+    public Waves Waves = new Waves();
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -67,6 +73,8 @@ public class Map : Node2D
         SpawnBlocker = GetNode<Control>("SpawnBlocker");
         LifeLabel = GetNode<Label>("LifeLabel");
         TowerRandomiser = GetNode<TowerRandomiser>("TowerRandomiser");
+        ContinueButton = GetNode<Button>("ContinueButton");
+        WaveLabel = GetNode<Label>("WaveLabel");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -75,6 +83,10 @@ public class Map : Node2D
 
         // Add connections
         SpawnTimer.Connect("timeout", this, nameof(SpawnTimer_Timeout));
+        SpawnTimer.Paused = true;
+
+        // Continue button
+        ContinueButton.Connect("pressed", this, nameof(ContinueButton_Pressed));
 
         // Turret connections
         foreach (var turret in GetTurrets())
@@ -85,7 +97,7 @@ public class Map : Node2D
         // Shop connection
         Shop.Connect(nameof(Shop.TurretSelected), this, nameof(Shop_TurretSelected));
 
-        // Randomiser conneciton
+        // Randomiser connection
         TowerRandomiser.Connect(nameof(TowerRandomiser.TowerAccepted), this, nameof(TowerRandomiser_TowerRolled));
 
 
@@ -254,8 +266,27 @@ public class Map : Node2D
 
         GD.Print("Spawning enemy");
 
+        // Get the next enemy from the wave
+        var nextWaveEnemy = Waves.GetCurrentWave().GetNextEnemy();
+        if (nextWaveEnemy is null)
+        {
+            if (GetEnemies().Count() == 0)
+            {
+                // No more enemies to spawn and all enemies are dead
+                EndCurrentWave();
+            }
+
+            // No more enemies to spawn but some are still onscreen
+            return;
+        }
+
+
         // Create new enemy instance
         var enemy = EnemyScene.Instance<Enemy>();
+        enemy.EnemyModel = nextWaveEnemy;
+
+        enemy.InitialHealth = (int)(nextWaveEnemy.HealthMultiplier * Waves.WaveDisplayNumber);
+        enemy.MoveSpeed = nextWaveEnemy.MoveSpeed;
 
         // Create new follow path and add enemy
         var followPath = new PathFollow2D();
@@ -266,6 +297,30 @@ public class Map : Node2D
 
         // Add enemy with path to the main node
         EnemyPath.AddChild(followPath);
+    }
+
+    /// <summary>
+    /// End the current wave and adance to the next wave
+    /// </summary>
+    private void EndCurrentWave()
+    {
+        var currentWave = Waves.GetCurrentWave();
+        Shop.Money += currentWave.CompletionBonus;
+
+
+        if (currentWave.DiceReward)
+        {
+            TowerRandomiser.TowerRandomiserShown();
+            TowerRandomiser.Visible = true;
+        }
+
+
+
+        Waves.AdvanceWave();
+        SpawnTimer.WaitTime = Waves.GetCurrentWave().SpawnDelay;
+        GetTree().Paused = true;
+        ContinueButton.Visible = true;
+        WaveLabel.Text = $"Wave {Waves.WaveDisplayNumber}";
     }
 
     public IEnumerable<Turret> GetTurrets() => Helpers.GetChildrenOfType<Turret>(Turrets);
@@ -353,6 +408,13 @@ public class Map : Node2D
     public void TowerRandomiser_TowerRolled(TurretModel turret)
     {
         Shop.AddButton(turret);
+    }
+
+    public void ContinueButton_Pressed()
+    {
+        GetTree().Paused = false;
+        SpawnTimer.Paused = false;
+        ContinueButton.Visible = false;
     }
 
 

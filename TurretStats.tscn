@@ -13,8 +13,10 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 66.0
-margin_bottom = 48.0
-text = "Example 1
-Example 2
-Example 3"
+margin_right = 60.0
+margin_bottom = 82.0
+text = "$$$ 1000
+DMG: 10
+SPD: 100
+ROF: 1
+PEN: 3"

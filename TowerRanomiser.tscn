@@ -1,9 +1,12 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://TowerRandomiser.cs" type="Script" id=1]
 [ext_resource path="res://Dice.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Turret.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TurretStats.tscn" type="PackedScene" id=4]
+[ext_resource path="res://sprites/top-3.png" type="Texture" id=5]
+[ext_resource path="res://sprites/base-3.png" type="Texture" id=6]
+[ext_resource path="res://sprites/dice.png" type="Texture" id=7]
 
 [node name="TowerRandomiser" type="Node2D"]
 pause_mode = 2
@@ -15,10 +18,10 @@ margin_bottom = 1080.0
 color = Color( 0.423529, 0.517647, 0.513726, 1 )
 
 [node name="RollButton" type="Button" parent="."]
-margin_left = 885.0
-margin_top = 842.0
-margin_right = 925.0
-margin_bottom = 862.0
+margin_left = 860.0
+margin_top = 930.0
+margin_right = 900.0
+margin_bottom = 950.0
 rect_scale = Vector2( 3, 3 )
 text = "Roll!"
 
@@ -34,12 +37,12 @@ rect_scale = Vector2( 2, 2 )
 text = "Re-roll"
 
 [node name="AcceptButton" type="Button" parent="."]
-margin_left = 857.0
-margin_top = 902.0
-margin_right = 913.0
-margin_bottom = 922.0
+margin_left = 1644.0
+margin_top = 942.0
+margin_right = 1721.0
+margin_bottom = 975.0
 rect_scale = Vector2( 3, 3 )
-text = "Accept"
+text = "Continue"
 
 [node name="TopDiceWrapper" type="Area2D" parent="."]
 position = Vector2( 1516, 502 )
@@ -60,20 +63,64 @@ __meta__ = {
 [node name="InfoLabel" type="Label" parent="."]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = 558.0
-margin_top = 108.0
-margin_right = 692.0
-margin_bottom = 122.0
+margin_top = 69.0
+margin_right = 320.0
+margin_bottom = 89.0
 rect_scale = Vector2( 6, 6 )
 text = "New tower unlocked!"
+align = 1
 
 [node name="TurretPreview" parent="." instance=ExtResource( 3 )]
 position = Vector2( 934, 502 )
 scale = Vector2( 3, 3 )
 
+[node name="TurretStatsBg" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 821.0
+margin_top = 743.0
+margin_right = 1067.0
+margin_bottom = 985.0
+color = Color( 0.262745, 0.262745, 0.262745, 1 )
+
 [node name="TurretStats" parent="." instance=ExtResource( 4 )]
-margin_left = 593.0
-margin_top = 746.0
-margin_right = 593.0
-margin_bottom = 746.0
+margin_left = 839.0
+margin_top = 766.0
+margin_right = 839.0
+margin_bottom = 766.0
 rect_scale = Vector2( 2, 2 )
+
+[node name="DiceImage" type="Node2D" parent="."]
+position = Vector2( 310, -241 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Base" type="Node2D" parent="DiceImage"]
+position = Vector2( -114, -131 )
+
+[node name="Sprite3" type="Sprite" parent="DiceImage/Base"]
+position = Vector2( 668, 930 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 7 )
+
+[node name="Sprite4" type="Sprite" parent="DiceImage/Base"]
+position = Vector2( 671, 932 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 6 )
+
+[node name="Top" type="Node2D" parent="DiceImage"]
+position = Vector2( 519, -10 )
+__meta__ = {
+"_edit_group_": true
+}
+
+[node name="Sprite" type="Sprite" parent="DiceImage/Top"]
+position = Vector2( 166, 894 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 7 )
+
+[node name="Sprite2" type="Sprite" parent="DiceImage/Top"]
+position = Vector2( 166, 894 )
+scale = Vector2( 4, 4 )
+texture = ExtResource( 5 )

@@ -1,6 +1,7 @@
 using gmtkjame2022rollthedice;
 using gmtkjame2022rollthedice.Helpers;
 using gmtkjame2022rollthedice.Models;
+using gmtkjame2022rollthedice.Data;
 using Godot;
 using System;
 using System.Collections.Generic;
@@ -19,88 +20,11 @@ public class TowerRandomiser : Node2D
 
     public Turret TurretPreview { get; set; }
 
-    public static List<Cannon> Cannons = new List<Cannon>()
-    {
-        // Basic
-        new Cannon()
-        {
-            SpritePath = "res://sprites/top.png",
-            Cost = 100,
-            Damage = 1,
-            RateOfFire = 1f
-
-        },
-        // Rapid fire
-        new Cannon()
-        {
-            SpritePath = "res://sprites/top-2.png",
-            Cost = 150,
-            Damage = 5,
-            RateOfFire = 5f,
-
-        },
-        // Sniper
-        new Cannon()
-        {
-            SpritePath = "res://sprites/top-3.png",
-            Cost = 150,
-            BulletSpeed = 2000,
-            Damage = 5,
-            RateOfFire = 2f,
-            BulletSize =  1.2f
-        },
-        // Slow pulse cannon
-        new Cannon()
-        {
-            SpritePath = "res://sprites/top-4.png",
-            Cost = 150,
-            BulletSpeed = 200,
-            Damage = 3,
-            RateOfFire = 0.6f,
-            BulletSize = 1.5f
-        },
-        // Railgun
-        new Cannon()
-        {
-            SpritePath = "res://sprites/top-5.png",
-            Cost = 150,
-            BulletSpeed = 800,
-            Damage = 1,
-            RateOfFire = 0.6f,
-            BulletSize = 3f,
-            MaxCollisions = 3
-        },
-    };
-
-    public static List<CannonBase> CannonBases = new List<CannonBase>()
-    {
-        new CannonBase()
-        {
-            SpritePath = "res://sprites/base.png",
-            RotateSpeed = 0.05f,
-            Cost = 20
-        },
-        new CannonBase()
-        {
-            SpritePath = "res://sprites/base-2.png",
-            RotateSpeed = 0.4f,
-            Cost = 50,
-            Range = 300
-        },
-        new CannonBase()
-        {
-            SpritePath = "res://sprites/base-3.png",
-            RotateSpeed = 0.4f,
-            Cost = 50,
-            Range = 500,
-            Damage = 100
-        }
-    };
-
 
     public Button RollButton { get; set; }
     public Button ReRollButton { get; set; }
     public Button AcceptButton { get; set; }
+    public ColorRect TurretStatsBg { get; set; }
 
     public Cannon CannonTop { get; set; }
     public CannonBase CannonBase { get; set; }
@@ -109,6 +33,8 @@ public class TowerRandomiser : Node2D
     public Dice BaseDice { get; set; }
 
     public TurretStats TurretStats { get; set; }
+
+    public Node2D DiceImage { get; set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
@@ -124,6 +50,8 @@ public class TowerRandomiser : Node2D
         InfoLabel = GetNode<Label>("InfoLabel");
         TurretPreview = GetNode<Turret>("TurretPreview");
         TurretStats = GetNode<TurretStats>("TurretStats");
+        TurretStatsBg = GetNode<ColorRect>("TurretStatsBg");
+        DiceImage = GetNode<Node2D>("DiceImage");
 
 
         RollButton.Connect("pressed", this, nameof(RollDice));
@@ -139,27 +67,45 @@ public class TowerRandomiser : Node2D
 
         BaseDice.Connect(nameof(Dice.RollFinished), this, nameof(BaseDice_RollFinished));
 
+        TowerRandomiserShown();
+
     }
 
     public void TowerRandomiserShown()
     {
+        InfoLabel.Text = "You got some new dice!";
+
         // Pause game and hide appropriate controls
         GetTree().Paused = true;
         RollButton.Visible = true;
         AcceptButton.Visible = false;
-        InfoLabel.Visible = false;
+        //InfoLabel.Visible = false;
         TurretStats.Visible = false;
+        TurretStatsBg.Visible = false;
+        TurretPreview.Visible = false;
+
+        TopDice.Visible = false;
+        TopDice.Scale = new Vector2(4f, 4f);
+
+        BaseDice.Visible = false;
+        BaseDice.Scale = new Vector2(4f, 4f);
+
+        DiceImage.Visible = true;
     }
 
 
     public void RollDice()
     {
+        DiceImage.Visible = false;
+        TopDice.Visible = true;
+        BaseDice.Visible = true;
+
         // Randomise order of sprite list
-        TopDice.Sprites = Cannons.Select(c => c.SpritePath)
+        TopDice.Sprites = CannonData.Cannons.Select(c => c.SpritePath)
                                 .OrderBy(a => Guid.NewGuid())
                                 .ToList();
 
-        BaseDice.Sprites = CannonBases.Select(c => c.SpritePath)
+        BaseDice.Sprites = CannonData.CannonBases.Select(c => c.SpritePath)
                         .OrderBy(a => Guid.NewGuid())
                         .ToList();
 
@@ -175,7 +121,7 @@ public class TowerRandomiser : Node2D
     {
         //TODO: Show re-roll button
         AcceptButton.Visible = true;
-        CannonTop = Cannons.FirstOrDefault(o => o.SpritePath == spritePath);
+        CannonTop = CannonData.Cannons.FirstOrDefault(o => o.SpritePath == spritePath);
 
         EmitSignal(nameof(TowerRolled), TopDice.CurrentSprite());
     }
@@ -187,7 +133,7 @@ public class TowerRandomiser : Node2D
     {
         //TODO: Show re-roll button???
         AcceptButton.Visible = true;
-        CannonBase = CannonBases.FirstOrDefault(o => o.SpritePath == spritePath);
+        CannonBase = CannonData.CannonBases.FirstOrDefault(o => o.SpritePath == spritePath);
 
         EmitSignal(nameof(TowerRolled), BaseDice.CurrentSprite());
         ShowPreview();
@@ -199,10 +145,13 @@ public class TowerRandomiser : Node2D
         TurretPreview.CannonBase.Texture = Helpers.TextureFromImagePath(CannonBase.SpritePath);
         TurretPreview.Cannon.Texture = Helpers.TextureFromImagePath(CannonTop.SpritePath);
 
+        InfoLabel.Text = "New tower unlocked!";
+
 
         InfoLabel.Visible = true;
         TurretPreview.Visible = true;
         TurretStats.Visible = true;
+        TurretStatsBg.Visible = true;
         TurretStats.LoadTurret(MergeTowerParts(CannonBase, CannonTop));
     }
 
@@ -249,14 +198,14 @@ public class TowerRandomiser : Node2D
     public static TurretModel GetRandomTower()
     {
         var cannon = GetRandomCannon();
-        var cannonBase = CannonBases[(int)GD.RandRange(0, CannonBases.Count)];
+        var cannonBase = CannonData.CannonBases[(int)GD.RandRange(0, CannonData.CannonBases.Count)];
 
         return MergeTowerParts(cannonBase, cannon);
     }
 
     public static Cannon GetRandomCannon()
     {
-        return Cannons[(int)GD.RandRange(0, Cannons.Count)];
+        return CannonData.Cannons[(int)GD.RandRange(0, CannonData.Cannons.Count)];
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
