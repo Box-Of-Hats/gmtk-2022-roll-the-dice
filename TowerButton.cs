@@ -1,29 +1,40 @@
+using gmtkjame2022rollthedice;
+using gmtkjame2022rollthedice.Helpers;
 using Godot;
 using System;
 
 public class TowerButton : Button
 {
-    public Turret Turret { get; set; }
+    public ITurret Turret { get; set; }
 
     public Sprite TopSprite { get; set; }
     public Sprite BottomSprite { get; set; }
-    // Declare member variables here. Examples:
-    // private int a = 2;
-    // private string b = "text";
+    public Label CostLabel { get; set; }
 
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
-        //TODO: set turret in code
-
         TopSprite = GetNode<Sprite>("Icon/Top");
         BottomSprite = GetNode<Sprite>("Icon/Bottom");
+        CostLabel = GetNode<Label>("CostLabel");
 
-        if (Turret != null)
+        if (Turret is null)
         {
-            TopSprite.Texture = Turret.Cannon.Texture;
+            GD.PrintErr("No turret set for TowerButton - ", this);
+            return;
         }
+
+
+        // Set turret image to match the loaded turret
+        // Top
+        TopSprite.Texture = Helpers.TextureFromImagePath(Turret.TopSprite);
+
+        // Bottom
+        BottomSprite.Texture = Helpers.TextureFromImagePath(Turret.BottomSprite);
+
+        CostLabel.Text = $"${Turret.Cost}";
+
 
     }
 

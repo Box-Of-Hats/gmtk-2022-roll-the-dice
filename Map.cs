@@ -1,3 +1,4 @@
+using gmtkjame2022rollthedice;
 using gmtkjame2022rollthedice.Helpers;
 using Godot;
 using System;
@@ -17,11 +18,16 @@ public class Map : Node2D
     public Node2D Bullets { get; set; }
     public Shop Shop { get; set; }
 
+    public Control SpawnBlocker { get; set; }
+
 
     // Spawners
     public PackedScene EnemyScene { get; private set; }
     public PackedScene BulletScene { get; private set; }
     public PackedScene TurretScene { get; private set; }
+
+    public ITurret SelectedTurret { get; set; }
+
 
     // Rotation offset for all cannon top math
     const float CannonRotationOffset = (float)Math.PI / 2f;
@@ -35,6 +41,7 @@ public class Map : Node2D
         Turrets = GetNode<Node2D>("Turrets");
         Bullets = GetNode<Node2D>("Bullets");
         Shop = GetNode<Shop>("Shop");
+        SpawnBlocker = GetNode<Control>("SpawnBlocker");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -44,10 +51,14 @@ public class Map : Node2D
         // Add connections
         SpawnTimer.Connect("timeout", this, nameof(SpawnTimer_Timeout));
 
+        // Turret connections
         foreach (var turret in GetTurrets())
         {
             turret.Connect(nameof(Turret.TurretFired), this, nameof(Turret_Shoot));
         }
+
+        // Shop connection
+        Shop.Connect(nameof(Shop.TurretSelected), this, nameof(Shop_TurretSelected));
 
 
     }
@@ -82,7 +93,6 @@ public class Map : Node2D
 
         var firstEnemy = allEnemies.FirstOrDefault();
 
-        const float onTargetPadding = 0.5f;
 
         foreach (var turret in GetTurrets())
         {
@@ -125,12 +135,26 @@ public class Map : Node2D
 
         if (Input.IsActionJustPressed("place_tower"))
         {
+            if (SelectedTurret == null)
+            {
+                GD.Print("No turret selected");
+                return;
+            }
+            var mousePosition = GetLocalMousePosition();
+
+            if (SpawnBlocker.GetRect().HasPoint(mousePosition))
+            {
+                // Click is within the spawn blocker
+                GD.Print("Invalid turret location. Area cannot be within spawn blocker");
+                return;
+            }
+
+
             // Check position isn't on the path
             const float pathWidth = 30;
             const float turretWidth = 128;
             const float pathDeadZone = turretWidth / 2 + pathWidth;
 
-            var mousePosition = GetLocalMousePosition();
             var closestPathPoint = EnemyPath.Curve.GetClosestPoint(mousePosition);
 
             var distanceToPath = mousePosition.DistanceTo(closestPathPoint);
@@ -150,10 +174,9 @@ public class Map : Node2D
                 return;
             }
 
-            //TODO: Check a tower is selected?
-
             // Create a tower
-            SpawnTurret(mousePosition);
+            GD.Print("Spawning turret with -", SelectedTurret.BottomSprite, SelectedTurret.TopSprite);
+            SpawnTurret(mousePosition, SelectedTurret);
         }
 
     }
@@ -220,6 +243,7 @@ public class Map : Node2D
     {
         // Spawn bullets for the firing turret
         var newBullet = BulletScene.Instance<Bullet>();
+        newBullet.Damage = turret.Damage;
 
         var turretRoation = turret.Cannon.Rotation - CannonRotationOffset;
 
@@ -241,17 +265,39 @@ public class Map : Node2D
         enemyParent.QueueFree();
     }
 
-    public void SpawnTurret(Vector2 position)
+    public void SpawnTurret(Vector2 position, ITurret turret)
     {
+        if (Shop.Money < turret.Cost)
+        {
+            // Player doesn't have enough money
+            GD.Print("Cannot spawn turret - cost is too high!");
+            return;
+        }
+
+        // Take the cost of the turret
+        Shop.Money -= turret.Cost;
+
+        // Create the new turret
         var newTurret = TurretScene.Instance<Turret>();
         newTurret.Position = position;
+        newTurret.BulletSpeed = turret.BulletSpeed;
+        newTurret.RateOfFire = turret.RateOfFire;
+        newTurret.TopSprite = turret.TopSprite;
+        newTurret.BottomSprite = turret.BottomSprite;
+        newTurret.RotateSpeed = turret.RotateSpeed;
+        newTurret.Cost = turret.Cost;
+        newTurret.Damage = turret.Damage;
+        newTurret.Range = turret.Range;
 
         newTurret.Connect(nameof(Turret.TurretFired), this, nameof(Turret_Shoot));
 
-        //TODO: remove randomiser
-        // Randomise rotation speed
-        newTurret.RotateSpeed = GD.Randf() / 10;
-
         Turrets.AddChild(newTurret);
     }
+
+    public void Shop_TurretSelected(TurretModel turret)
+    {
+        GD.Print($"Selected turret - {turret.TopSprite}/{turret.BottomSprite}");
+        SelectedTurret = turret;
+    }
+
 }

@@ -18,6 +18,11 @@ namespace gmtkjame2022rollthedice.Helpers
         /// <returns></returns>
         public static IEnumerable<ChildType> GetChildrenOfType<ChildType>(Node rootNode)
         {
+            if (rootNode == null)
+            {
+                throw new ArgumentNullException(nameof(rootNode));
+            }
+
             foreach (ChildType child in rootNode.GetChildren())
             {
                 if (child is ChildType)
@@ -26,6 +31,21 @@ namespace gmtkjame2022rollthedice.Helpers
                 }
 
             }
+        }
+
+        /// <summary>
+        /// Create a texture from a given image path
+        /// </summary>
+        /// <param name="imagePath"></param>
+        /// <returns></returns>
+        public static ImageTexture TextureFromImagePath(string imagePath)
+        {
+            var image = new Image();
+            image.Load(imagePath);
+
+            var imageTexture = new ImageTexture();
+            imageTexture.CreateFromImage(image);
+            return imageTexture;
         }
 
     }
