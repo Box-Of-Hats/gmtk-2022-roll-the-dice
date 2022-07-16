@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://TowerRandomiser.cs" type="Script" id=1]
 [ext_resource path="res://Dice.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Turret.tscn" type="PackedScene" id=3]
+[ext_resource path="res://TurretStats.tscn" type="PackedScene" id=4]
 
 [node name="TowerRandomiser" type="Node2D"]
 pause_mode = 2
@@ -69,3 +70,10 @@ text = "New tower unlocked!"
 [node name="TurretPreview" parent="." instance=ExtResource( 3 )]
 position = Vector2( 934, 502 )
 scale = Vector2( 3, 3 )
+
+[node name="TurretStats" parent="." instance=ExtResource( 4 )]
+margin_left = 593.0
+margin_top = 746.0
+margin_right = 593.0
+margin_bottom = 746.0
+rect_scale = Vector2( 2, 2 )

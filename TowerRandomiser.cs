@@ -108,6 +108,8 @@ public class TowerRandomiser : Node2D
     public Dice TopDice { get; set; }
     public Dice BaseDice { get; set; }
 
+    public TurretStats TurretStats { get; set; }
+
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
@@ -121,6 +123,7 @@ public class TowerRandomiser : Node2D
         BaseDice = GetNode<Dice>("BaseDiceWrapper/BaseDice");
         InfoLabel = GetNode<Label>("InfoLabel");
         TurretPreview = GetNode<Turret>("TurretPreview");
+        TurretStats = GetNode<TurretStats>("TurretStats");
 
 
         RollButton.Connect("pressed", this, nameof(RollDice));
@@ -130,7 +133,7 @@ public class TowerRandomiser : Node2D
         ReRollButton.Connect("pressed", this, nameof(RollDice));
 
         // Whenever the tower randomiser is shown, pause the game
-        VisibilityNotifier2D.Connect("screen_entered", this, nameof(PauseGameplay));
+        VisibilityNotifier2D.Connect("screen_entered", this, nameof(TowerRandomiserShown));
 
         TopDice.Connect(nameof(Dice.RollFinished), this, nameof(TopDice_RollFinished));
 
@@ -138,12 +141,14 @@ public class TowerRandomiser : Node2D
 
     }
 
-    public void PauseGameplay()
+    public void TowerRandomiserShown()
     {
+        // Pause game and hide appropriate controls
+        GetTree().Paused = true;
         RollButton.Visible = true;
         AcceptButton.Visible = false;
-        GetTree().Paused = true;
         InfoLabel.Visible = false;
+        TurretStats.Visible = false;
     }
 
 
@@ -197,7 +202,8 @@ public class TowerRandomiser : Node2D
 
         InfoLabel.Visible = true;
         TurretPreview.Visible = true;
-
+        TurretStats.Visible = true;
+        TurretStats.LoadTurret(MergeTowerParts(CannonBase, CannonTop));
     }
 
 
