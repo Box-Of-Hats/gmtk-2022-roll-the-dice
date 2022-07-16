@@ -47,7 +47,7 @@ tracks/2/keys = {
 "values": [ Vector2( 1, 1 ), Vector2( 0, 0 ) ]
 }
 
-[node name="Enemy" type="Area2D"]
+[node name="Enemy" type="Area2D" groups=["enemy"]]
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true

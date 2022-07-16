@@ -70,8 +70,7 @@ public class Map : Node2D
 			{
 				GD.Print("Enemy reached the end!");
 
-				//TODO: Make sure path is also deleted
-				EnemyPath.RemoveChild(enemyPath);
+				enemyPath.QueueFree();
 
 				//TODO: Damage the player
 			}
@@ -83,7 +82,7 @@ public class Map : Node2D
 
 		foreach (var turret in GetTurrets())
 		{
-			//TODO: rotate turrets to the closest enemy
+			//TODO: rotate turrets to the closest enemy instead of the first?
 			if (firstEnemy == null)
 			{
 				// No first enemy to target
@@ -155,6 +154,6 @@ public class Map : Node2D
 		var enemyParent = enemy.GetParentOrNull<PathFollow2D>();
 
 		// Remove the enemy from the scene
-		EnemyPath.RemoveChild(enemyParent);
+		enemyParent.QueueFree();
 	}
 }
