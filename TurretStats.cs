@@ -27,7 +27,7 @@ public class TurretStats : Control
             child.QueueFree();
         }
 
-        Container.AddChild(MakeLabel($"$$$: {turret.Cost}", 1.2f));
+        Container.AddChild(MakeLabel($"$$$: {turret.Cost}", 2f));
         Container.AddChild(MakeLabel($"DMG: {turret.Damage}"));
         Container.AddChild(MakeLabel($"ROF: {turret.RateOfFire}"));
         Container.AddChild(MakeLabel($"PEN: {turret.MaxCollisions}"));
@@ -39,7 +39,7 @@ public class TurretStats : Control
         var label = new Label
         {
             Text = text,
-            RectScale = new Vector2(size, size)
+            RectScale = new Vector2(size, size),
         };
         return label;
     }
