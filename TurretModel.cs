@@ -10,5 +10,7 @@
         public int Cost { get; set; }
         public int Range { get; set; }
         public int Damage { get; set; }
+        public float BulletSize { get; set; }
+        public int MaxCollisions { get; set; }
     }
 }

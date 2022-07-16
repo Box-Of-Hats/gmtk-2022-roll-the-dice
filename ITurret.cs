@@ -8,7 +8,9 @@ namespace gmtkjame2022rollthedice
         IHasDamage,
         IHasCost,
         IHasRotateSpeed,
-        IHasRange
+        IHasRange,
+        IHasBulletSize,
+        IHasMaxCollisions
     {
         // Sprites
         string TopSprite { get; set; }

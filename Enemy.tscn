@@ -52,7 +52,8 @@ script = ExtResource( 2 )
 __meta__ = {
 "_edit_group_": true
 }
-MoveSpeed = 500
+MoveSpeed = 250
+InitialHealth = 10
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 1 )
@@ -65,3 +66,4 @@ anims/die = SubResource( 2 )
 
 [node name="HealthBar" parent="." instance=ExtResource( 3 )]
 position = Vector2( 0, 45 )
+scale = Vector2( 1.5, 1.5 )

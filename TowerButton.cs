@@ -10,6 +10,7 @@ public class TowerButton : Button
     public Sprite TopSprite { get; set; }
     public Sprite BottomSprite { get; set; }
     public Label CostLabel { get; set; }
+    public Label DamageLabel { get; set; }
 
 
     // Called when the node enters the scene tree for the first time.
@@ -18,6 +19,7 @@ public class TowerButton : Button
         TopSprite = GetNode<Sprite>("Icon/Top");
         BottomSprite = GetNode<Sprite>("Icon/Bottom");
         CostLabel = GetNode<Label>("CostLabel");
+        DamageLabel = GetNode<Label>("DamageLabel");
 
         if (Turret is null)
         {
@@ -34,6 +36,7 @@ public class TowerButton : Button
         BottomSprite.Texture = Helpers.TextureFromImagePath(Turret.BottomSprite);
 
         CostLabel.Text = $"${Turret.Cost}";
+        DamageLabel.Text = $"{Turret.Damage} dmg";
 
 
     }

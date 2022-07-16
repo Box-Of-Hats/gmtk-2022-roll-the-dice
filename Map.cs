@@ -19,6 +19,7 @@ public class Map : Node2D
     public Shop Shop { get; set; }
     public Control SpawnBlocker { get; set; }
     public Label LifeLabel { get; set; }
+    public TowerRandomiser TowerRandomiser { get; set; }
 
 
     // Spawners
@@ -65,6 +66,7 @@ public class Map : Node2D
         Shop = GetNode<Shop>("Shop");
         SpawnBlocker = GetNode<Control>("SpawnBlocker");
         LifeLabel = GetNode<Label>("LifeLabel");
+        TowerRandomiser = GetNode<TowerRandomiser>("TowerRandomiser");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -82,6 +84,9 @@ public class Map : Node2D
 
         // Shop connection
         Shop.Connect(nameof(Shop.TurretSelected), this, nameof(Shop_TurretSelected));
+
+        // Randomiser conneciton
+        TowerRandomiser.Connect(nameof(TowerRandomiser.TowerAccepted), this, nameof(TowerRandomiser_TowerRolled));
 
 
     }
@@ -271,14 +276,23 @@ public class Map : Node2D
     {
         // Spawn bullets for the firing turret
         var newBullet = BulletScene.Instance<Bullet>();
+
         newBullet.Damage = turret.Damage;
+        newBullet.MaxCollisions = turret.MaxCollisions;
+        //TODO: set scale permanently
 
         var turretRoation = turret.Cannon.Rotation - CannonRotationOffset;
 
+        // Velocity
         var direction = new Vector2((float)Math.Cos(turretRoation) * turret.BulletSpeed, (float)Math.Sin(turretRoation) * turret.BulletSpeed);
-
-        newBullet.Position = turret.Position;
         newBullet.LinearVelocity = direction;
+
+        // Position
+        const int towerWidth = 128;
+        const int bulletOffset = towerWidth / 2;
+        var positionOffset = new Vector2((float)Math.Cos(turretRoation) * bulletOffset, (float)Math.Sin(turretRoation) * bulletOffset);
+
+        newBullet.Position = turret.Position + positionOffset;
 
         Bullets.AddChild(newBullet);
     }
@@ -288,6 +302,8 @@ public class Map : Node2D
     {
         // Need to get the parent of the enemy because they are nested under a path follower
         var enemyParent = enemy.GetParentOrNull<PathFollow2D>();
+
+        Shop.Money += enemy.Reward;
 
         // Remove the enemy from the scene
         enemyParent.QueueFree();
@@ -333,5 +349,11 @@ public class Map : Node2D
         GD.Print("Game over!");
         GetTree().Quit();
     }
+
+    public void TowerRandomiser_TowerRolled(TurretModel turret)
+    {
+        Shop.AddButton(turret);
+    }
+
 
 }

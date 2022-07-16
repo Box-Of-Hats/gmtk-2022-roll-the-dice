@@ -52,42 +52,16 @@ public class Shop : Node2D
             button.QueueFree();
         }
 
-
-
-        // Add buttons
-        //AddButton(new TurretModel()
-        //{
-        //    RotateSpeed = 1,
-        //    BulletSpeed = 400,
-        //    RateOfFire = 0.3f,
-        //    TopSprite = "res://sprites/top-2.png",
-        //    BottomSprite = "res://sprites/base.png",
-        //    Cost = 100,
-        //    Damage = 1,
-        //    Range = 100
-
-        //});
-
-        //AddButton(new TurretModel()
-        //{
-        //    RotateSpeed = 1,
-        //    BulletSpeed = 400,
-        //    RateOfFire = 0.6f,
-        //    TopSprite = "res://sprites/top.png",
-        //    BottomSprite = "res://sprites/base.png",
-        //    Cost = 240,
-        //    Damage = 3,
-        //    Range = 400
-        //});
-
-        AddButton(TowerRandomiser.GetRandomTower());
-        AddButton(TowerRandomiser.GetRandomTower());
-        AddButton(TowerRandomiser.GetRandomTower());
+        //TODO: remove later
+        //AddButton(TowerRandomiser.GetRandomTower());
+        //AddButton(TowerRandomiser.GetRandomTower());
+        //AddButton(TowerRandomiser.GetRandomTower());
     }
 
     public void Button_Pressed(TowerButton button)
     {
         GD.Print("Pressed button (shop): ", button.Turret.TopSprite, button.Turret.BottomSprite);
+
         EmitSignal(nameof(TurretSelected), button.Turret);
 
     }
@@ -109,9 +83,20 @@ public class Shop : Node2D
     }
 
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
-    //  public override void _Process(float delta)
-    //  {
-    //      
-    //  }
+    public override void _Process(float delta)
+    {
+        foreach (var tower in Helpers.GetChildrenOfType<TowerButton>(TowerList))
+        {
+            if (tower.Turret.Cost > Money)
+            {
+                tower.Modulate = new Color("#ee8888");
+            } else
+            {
+                tower.Modulate = new Color("#ffffff");
+
+            }
+        }
+    }
+
 }
 

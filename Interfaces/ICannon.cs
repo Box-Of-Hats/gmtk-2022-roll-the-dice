@@ -7,7 +7,9 @@
         IHasCost,
         IHasRotateSpeed,
         IHasRange,
-        IHasSpritePath
+        IHasSpritePath,
+        IHasBulletSize,
+        IHasMaxCollisions
     {
 
     }

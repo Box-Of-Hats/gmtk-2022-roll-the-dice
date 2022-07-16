@@ -33,6 +33,8 @@ public class Turret : Node2D, ITurret
     public int Cost { get; set; }
     public int Range { get; set; }
     public int Damage { get; set; }
+    public float BulletSize { get; set; }
+    public int MaxCollisions { get; set; }
 
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()

@@ -14,8 +14,8 @@ thickness = 2
 
 [node name="TowerButton" type="Button"]
 margin_right = 80.0
-margin_bottom = 80.0
-rect_min_size = Vector2( 80, 80 )
+margin_bottom = 113.0
+rect_min_size = Vector2( 80, 120 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_styles/focus = SubResource( 1 )
@@ -43,3 +43,12 @@ margin_bottom = 80.0
 text = "200"
 align = 1
 valign = 1
+
+[node name="DamageLabel" type="Label" parent="."]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_top = -40.0
+margin_bottom = -26.0
+text = "5 dmg"
+align = 1
