@@ -17,8 +17,8 @@ public class Map : Node2D
     public Node2D Turrets { get; set; }
     public Node2D Bullets { get; set; }
     public Shop Shop { get; set; }
-
     public Control SpawnBlocker { get; set; }
+    public Label LifeLabel { get; set; }
 
 
     // Spawners
@@ -27,6 +27,25 @@ public class Map : Node2D
     public PackedScene TurretScene { get; private set; }
 
     public ITurret SelectedTurret { get; set; }
+
+    private int _lives;
+
+    [Export]
+    public int Lives
+    {
+        get
+        {
+            return _lives;
+        }
+        set
+        {
+            if (LifeLabel != null)
+            {
+                LifeLabel.Text = $"Lives: {value}";
+            }
+            _lives = value;
+        }
+    }
 
 
     // Rotation offset for all cannon top math
@@ -42,6 +61,7 @@ public class Map : Node2D
         Bullets = GetNode<Node2D>("Bullets");
         Shop = GetNode<Shop>("Shop");
         SpawnBlocker = GetNode<Control>("SpawnBlocker");
+        LifeLabel = GetNode<Label>("LifeLabel");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -87,7 +107,12 @@ public class Map : Node2D
 
                 enemyPath.QueueFree();
 
-                //TODO: Damage the player
+                //TODO: Add gameover check
+                Lives -= 1;
+                if (Lives <= 0)
+                {
+                    GameOver();
+                }
             }
         }
 
@@ -298,6 +323,12 @@ public class Map : Node2D
     {
         GD.Print($"Selected turret - {turret.TopSprite}/{turret.BottomSprite}");
         SelectedTurret = turret;
+    }
+
+    public void GameOver()
+    {
+        GD.Print("Game over!");
+        GetTree().Quit();
     }
 
 }
