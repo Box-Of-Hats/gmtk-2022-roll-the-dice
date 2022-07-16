@@ -6,6 +6,7 @@
 [sub_resource type="CircleShape2D" id=1]
 
 [node name="Bullet" type="RigidBody2D" groups=["bullet"]]
+pause_mode = 2
 contact_monitor = true
 script = ExtResource( 2 )
 

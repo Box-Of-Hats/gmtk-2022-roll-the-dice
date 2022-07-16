@@ -16,7 +16,7 @@ thickness = 2
 [node name="TowerButton" type="Button"]
 margin_right = 80.0
 margin_bottom = 113.0
-rect_min_size = Vector2( 80, 120 )
+rect_min_size = Vector2( 80, 140 )
 size_flags_horizontal = 0
 size_flags_vertical = 0
 custom_styles/focus = SubResource( 1 )

@@ -10,8 +10,9 @@ namespace gmtkjame2022rollthedice.Data
 
         private readonly List<Wave> _all = new List<Wave>()
         {
-            new Wave(new []{ 1,1,1      }, diceReward: true),
-            new Wave(new []{ 1,1,2      }),
+            //TODO: Make lots of waves!
+            new Wave(new []{ 1,1,1      }),
+            new Wave(new []{ 1,1,2      }, diceReward: true),
             new Wave(new []{ 2,2,2      }),
             new Wave(new []{ 2,2,1,1,2,2,2 }, 2),
             new Wave(new []{ 2,2,2,2,2,2,2,}, 2),

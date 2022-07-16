@@ -23,6 +23,7 @@ public class Map : Node2D
     public TowerRandomiser TowerRandomiser { get; set; }
     public Button ContinueButton { get; set; }
     public Label WaveLabel { get; set; }
+    public Label WaveBonusLabel { get; set; }
 
 
     // Spawners
@@ -71,10 +72,11 @@ public class Map : Node2D
         Bullets = GetNode<Node2D>("Bullets");
         Shop = GetNode<Shop>("Shop");
         SpawnBlocker = GetNode<Control>("SpawnBlocker");
-        LifeLabel = GetNode<Label>("LifeLabel");
+        LifeLabel = GetNode<Label>("HudContainer/LifeLabel");
         TowerRandomiser = GetNode<TowerRandomiser>("TowerRandomiser");
         ContinueButton = GetNode<Button>("ContinueButton");
-        WaveLabel = GetNode<Label>("WaveLabel");
+        WaveLabel = GetNode<Label>("HudContainer/WaveLabel");
+        WaveBonusLabel = GetNode<Label>("HudContainer/WaveBonusLabel");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -136,17 +138,24 @@ public class Map : Node2D
             }
         }
 
-        var firstEnemy = allEnemies.FirstOrDefault();
 
+        var firstEnemy = allEnemies.FirstOrDefault();
+        var allEnemyLocations = allEnemies.Select(o => o.Position);
 
         foreach (var turret in GetTurrets())
         {
-            //TODO: rotate turrets to the closest enemy instead of the first?
             if (firstEnemy == null)
             {
                 // No first enemy to target
-                //turret.Cannon.Rotation = turret.Cannon.Rotation + turret.RotateSpeed;
                 continue;
+            }
+            var enemyToTarget = firstEnemy;
+
+            if (enemyToTarget.Position.DistanceSquaredTo(turret.Position) > turret.Range)
+            {
+                // First Enemy is out of range for this turret. Fallback to the closest enemy
+                enemyToTarget = allEnemies.OrderBy(o => o.Position.DistanceSquaredTo(turret.Position))
+                    .FirstOrDefault();
             }
 
             const float tau = (float)(Math.PI * 2f);
@@ -155,27 +164,10 @@ public class Map : Node2D
             var absoluteTurretRotation = turret.Cannon.Rotation % tau;
 
             // Get the ideal rotation
-            var desiredRotation = (turret.GetAngleTo(firstEnemy.Position) + CannonRotationOffset) % tau;
-
+            var desiredRotation = (turret.GetAngleTo(enemyToTarget.Position) + CannonRotationOffset) % tau;
 
             // Point the cannon at the enemy
             turret.Cannon.Rotation = desiredRotation;
-
-            //TODO: See if I can get turret turning to be smooth
-            //if (absoluteTurretRotation - desiredRotation <= onTargetPadding)
-            //{
-            //    turret.Cannon.Rotation = absoluteTurretRotation - turret.RotateSpeed;
-            //}
-            //else if (absoluteTurretRotation < desiredRotation)
-            //{
-            //    turret.Cannon.Rotation = absoluteTurretRotation + turret.RotateSpeed;
-
-            //}
-            //else
-            //{
-            //    // Already pointing at the enemy, do nothing
-            //}
-
         }
 
         if (Input.IsActionJustPressed("place_tower"))
@@ -304,20 +296,35 @@ public class Map : Node2D
     /// </summary>
     private void EndCurrentWave()
     {
+        Shop.Money += Waves.WaveDisplayNumber * 10;
+
         var currentWave = Waves.GetCurrentWave();
-        Shop.Money += currentWave.CompletionBonus;
-
-
         if (currentWave.DiceReward)
         {
             TowerRandomiser.TowerRandomiserShown();
             TowerRandomiser.Visible = true;
         }
 
+        // Clear screen of bullets
+        foreach (var bullet in Helpers.GetChildrenOfType<Bullet>(Bullets))
+        {
+            bullet.QueueFree();
+        }
 
-
+        // Advance to the next wave of enemies
         Waves.AdvanceWave();
-        SpawnTimer.WaitTime = Waves.GetCurrentWave().SpawnDelay;
+        var nextWave = Waves.GetCurrentWave();
+
+
+        SpawnTimer.WaitTime = nextWave.SpawnDelay;
+
+
+        var waveBonus = nextWave.DiceReward
+            ? "Tower dice"
+            : $"${Waves.WaveDisplayNumber * 10}";
+
+        WaveBonusLabel.Text = $"Wave bonus: {waveBonus}";
+
         GetTree().Paused = true;
         ContinueButton.Visible = true;
         WaveLabel.Text = $"Wave {Waves.WaveDisplayNumber}";
