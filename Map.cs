@@ -54,6 +54,9 @@ public class Map : Node2D
     // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
+        // Set random seed
+        GD.Randomize();
+
         // Get nodes
         EnemyPath = GetNode<Path2D>("EnemyPath");
         SpawnTimer = GetNode<Timer>("SpawnTimer");

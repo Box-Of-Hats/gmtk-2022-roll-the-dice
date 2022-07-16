@@ -52,31 +52,37 @@ public class Shop : Node2D
             button.QueueFree();
         }
 
+
+
         // Add buttons
-        AddButton(new TurretModel()
-        {
-            RotateSpeed = 1,
-            BulletSpeed = 400,
-            RateOfFire = 0.3f,
-            TopSprite = "res://sprites/top-2.png",
-            BottomSprite = "res://sprites/base.png",
-            Cost = 100,
-            Damage = 1,
-            Range = 100
+        //AddButton(new TurretModel()
+        //{
+        //    RotateSpeed = 1,
+        //    BulletSpeed = 400,
+        //    RateOfFire = 0.3f,
+        //    TopSprite = "res://sprites/top-2.png",
+        //    BottomSprite = "res://sprites/base.png",
+        //    Cost = 100,
+        //    Damage = 1,
+        //    Range = 100
 
-        });
+        //});
 
-        AddButton(new TurretModel()
-        {
-            RotateSpeed = 1,
-            BulletSpeed = 400,
-            RateOfFire = 0.6f,
-            TopSprite = "res://sprites/top.png",
-            BottomSprite = "res://sprites/base.png",
-            Cost = 240,
-            Damage = 3,
-            Range = 400
-        });
+        //AddButton(new TurretModel()
+        //{
+        //    RotateSpeed = 1,
+        //    BulletSpeed = 400,
+        //    RateOfFire = 0.6f,
+        //    TopSprite = "res://sprites/top.png",
+        //    BottomSprite = "res://sprites/base.png",
+        //    Cost = 240,
+        //    Damage = 3,
+        //    Range = 400
+        //});
+
+        AddButton(TowerRandomiser.GetRandomTower());
+        AddButton(TowerRandomiser.GetRandomTower());
+        AddButton(TowerRandomiser.GetRandomTower());
     }
 
     public void Button_Pressed(TowerButton button)
