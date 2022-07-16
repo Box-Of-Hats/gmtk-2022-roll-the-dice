@@ -32,7 +32,6 @@ public class HealthBar : Node2D
         Green = GetNode<ColorRect>("Green");
 
         MaxRectangleLength = Green.RectSize.x;
-        GD.Print(MaxRectangleLength);
 
         UpdateHealth(CurrentHealth);
     }
@@ -53,7 +52,7 @@ public class HealthBar : Node2D
         // Update display
 
         Label.Text = $"{CurrentHealth}/{MaxHealth}";
-        var percentageHealth = CurrentHealth / MaxHealth;
+        var percentageHealth = (float)CurrentHealth / (float)MaxHealth;
         Green.RectSize = new Vector2(percentageHealth * MaxRectangleLength, Green.RectSize.y);
 
     }

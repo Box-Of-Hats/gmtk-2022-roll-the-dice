@@ -16,6 +16,12 @@ public class Turret : Node2D
     [Export(PropertyHint.Range, "300, 1000")]
     public int BulletSpeed { get; set; } = 700;
 
+    /// <summary>
+    /// The speed that the turret can rotate/target
+    /// </summary>
+    [Export()]
+    public float RotateSpeed { get; set; } = 0.01f;
+
     // Nodes
     public AnimationPlayer AnimationPlayer { get; set; }
     public Sprite Cannon { get; set; }
