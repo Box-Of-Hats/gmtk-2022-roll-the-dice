@@ -79,7 +79,6 @@ public class TowerRandomiser : Node2D
         GetTree().Paused = true;
         RollButton.Visible = true;
         AcceptButton.Visible = false;
-        //InfoLabel.Visible = false;
         TurretStats.Visible = false;
         TurretStatsBg.Visible = false;
         TurretPreview.Visible = false;

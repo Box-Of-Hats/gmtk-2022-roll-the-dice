@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://TurretStats.cs" type="Script" id=1]
+[ext_resource path="res://BpMono.tres" type="DynamicFont" id=2]
 
 [node name="TurretStats" type="Control"]
 anchor_right = 1.0
@@ -13,8 +14,9 @@ margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Label" type="Label" parent="VBoxContainer"]
-margin_right = 60.0
-margin_bottom = 82.0
+margin_right = 76.0
+margin_bottom = 107.0
+custom_fonts/font = ExtResource( 2 )
 text = "$$$ 1000
 DMG: 10
 SPD: 100
