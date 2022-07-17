@@ -67,6 +67,11 @@ public class TowerRandomiser : Node2D
 
         BaseDice.Connect(nameof(Dice.RollFinished), this, nameof(BaseDice_RollFinished));
 
+
+        // Set sprites of the dice image
+        GetNode<Sprite>("DiceImage/Base/Fg").Texture = Helpers.TextureFromImagePath("res://sprites/base-3.png");
+        GetNode<Sprite>("DiceImage/Top/Fg").Texture = Helpers.TextureFromImagePath("res://sprites/top-4.png");
+
         TowerRandomiserShown();
 
     }
