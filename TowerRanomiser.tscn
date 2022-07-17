@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://TowerRandomiser.cs" type="Script" id=1]
 [ext_resource path="res://Dice.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Turret.tscn" type="PackedScene" id=3]
 [ext_resource path="res://TurretStats.tscn" type="PackedScene" id=4]
 [ext_resource path="res://sprites/dice.png" type="Texture" id=5]
+[ext_resource path="res://sprites/play.png" type="Texture" id=6]
 [ext_resource path="res://BpMono.tres" type="DynamicFont" id=9]
 
 [node name="TowerRandomiser" type="Node2D"]
@@ -17,13 +18,15 @@ margin_bottom = 1080.0
 color = Color( 0.423529, 0.517647, 0.513726, 1 )
 
 [node name="RollButton" type="Button" parent="."]
-margin_left = 860.0
+margin_left = 736.0
 margin_top = 930.0
-margin_right = 900.0
-margin_bottom = 950.0
+margin_right = 855.0
+margin_bottom = 955.0
 rect_scale = Vector2( 3, 3 )
 custom_fonts/font = ExtResource( 9 )
 text = "Roll!"
+icon = ExtResource( 5 )
+expand_icon = true
 
 [node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
 
@@ -37,13 +40,15 @@ rect_scale = Vector2( 2, 2 )
 text = "Re-roll"
 
 [node name="AcceptButton" type="Button" parent="."]
-margin_left = 1614.0
+margin_left = 1516.0
 margin_top = 942.0
-margin_right = 1701.78
+margin_right = 1636.0
 margin_bottom = 975.0
 rect_scale = Vector2( 3, 3 )
 custom_fonts/font = ExtResource( 9 )
 text = "Continue"
+icon = ExtResource( 6 )
+expand_icon = true
 
 [node name="TopDiceWrapper" type="Area2D" parent="."]
 position = Vector2( 1516, 502 )

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=2]
 
-[ext_resource path="res://sprites/circle.png" type="Texture" id=1]
+[ext_resource path="res://sprites/play.png" type="Texture" id=1]
 [ext_resource path="res://BpMono.tres" type="DynamicFont" id=2]
 [ext_resource path="res://GameOverMenu.cs" type="Script" id=3]
 
