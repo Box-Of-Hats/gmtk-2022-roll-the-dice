@@ -93,8 +93,8 @@ text = "Built in 48 hours for GMTK Jam 2022"
 [node name="RichTextLabel2" type="RichTextLabel" parent="Panel"]
 margin_left = 495.0
 margin_top = 296.0
-margin_right = 1066.0
-margin_bottom = 487.0
+margin_right = 974.0
+margin_bottom = 391.0
 rect_scale = Vector2( 2, 2 )
 custom_fonts/normal_font = ExtResource( 1 )
 text = "- Defend from waves of enemies by building towers

@@ -27,6 +27,8 @@ public class Map : Node2D
     public Sprite RangeIndicator { get; set; }
     public Sprite TowerPreview { get; set; }
 
+    public Node2D GameOverMenu { get; set; }
+
     // Spawners
     public PackedScene EnemyScene { get; private set; }
     public PackedScene BulletScene { get; private set; }
@@ -80,6 +82,7 @@ public class Map : Node2D
         WaveBonusLabel = GetNode<Label>("HudContainer/WaveBonusLabel");
         RangeIndicator = GetNode<Sprite>("RangeIndicator");
         TowerPreview = GetNode<Sprite>("TowerPreview");
+        GameOverMenu = GetNode<Node2D>("GameOverMenu");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -469,8 +472,11 @@ public class Map : Node2D
 
     public void GameOver()
     {
+        GetTree().Paused = true;
+        GameOverMenu.Visible = true;
+        //GameOverMenu.SetScoreLabel(Waves.WaveDisplayNumber);
+
         GD.Print("Game over!");
-        GetTree().Quit();
     }
 
     public void TowerRandomiser_TowerRolled(TurretModel turret)
