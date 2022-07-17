@@ -11,6 +11,8 @@ public class Shop : Node2D
     public Node TowerList { get; set; }
     public Label MoneyLabel { get; set; }
 
+    public AnimationPlayer AnimationPlayer { get; set; }
+
     public PackedScene ButtonGenerator { get; set; }
 
     private int _money;
@@ -28,6 +30,16 @@ public class Shop : Node2D
             {
                 MoneyLabel.Text = $"${value}";
             }
+            if (AnimationPlayer != null)
+            {
+                if (value > _money)
+                {
+                    AnimationPlayer.Play("MoneyUp");
+                } else
+                {
+                    AnimationPlayer.Play("MoneyDown");
+                }
+            }
             _money = value;
         }
     }
@@ -39,6 +51,7 @@ public class Shop : Node2D
         // Nodes
         MoneyLabel = GetNode<Label>("MoneyLabel");
         TowerList = GetNode<Node>("TowerList");
+        AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 
         // Spawners
         ButtonGenerator = GD.Load<PackedScene>("res://TowerButton.tscn");
@@ -90,7 +103,8 @@ public class Shop : Node2D
             if (tower.Turret.Cost > Money)
             {
                 tower.Modulate = new Color("#ee8888");
-            } else
+            }
+            else
             {
                 tower.Modulate = new Color("#ffffff");
 

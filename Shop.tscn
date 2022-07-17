@@ -1,8 +1,40 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://TowerButton.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Shop.cs" type="Script" id=2]
 [ext_resource path="res://BpMono.tres" type="DynamicFont" id=3]
+
+[sub_resource type="Animation" id=2]
+resource_name = "MoneyDown"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("MoneyLabel:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 1, 0.0941176, 0, 1 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "MoneyUp"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("MoneyLabel:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ), Color( 0, 1, 0.392157, 1 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Shop" type="Node2D"]
 script = ExtResource( 2 )
@@ -25,3 +57,7 @@ margin_right = 40.0
 margin_bottom = 14.0
 custom_fonts/font = ExtResource( 3 )
 text = "2000"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/MoneyDown = SubResource( 2 )
+anims/MoneyUp = SubResource( 1 )

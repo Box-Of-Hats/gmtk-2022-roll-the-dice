@@ -48,7 +48,7 @@ namespace gmtkjame2022rollthedice.Data
         {
             SpritePath = "res://sprites/top-2.png",
             Cost = 150,
-            Damage = 5,
+            Damage = 2,
             RateOfFire = 5f,
 
         },
@@ -57,7 +57,8 @@ namespace gmtkjame2022rollthedice.Data
         {
             SpritePath = "res://sprites/top-3.png",
             Cost = 150,
-            BulletSpeed = 2000,
+            BulletSpeed = 3000,
+            Range = 1000,
             Damage = 5,
             RateOfFire = 2f,
             BulletSize =  1.2f
@@ -82,6 +83,18 @@ namespace gmtkjame2022rollthedice.Data
             RateOfFire = 0.6f,
             BulletSize = 3f,
             MaxCollisions = 3
+        },
+        // Sprayer
+        new Cannon()
+        {
+            SpritePath = "res://sprites/top-6.png",
+            Cost = 200,
+            BulletSpeed = 500,
+            Damage = 1,
+            RateOfFire = 0.2f,
+            BulletSize = 3f,
+            MaxCollisions = 1,
+            Range = 20
         },
     };
 
