@@ -378,6 +378,12 @@ public class Map : Node2D
         Waves.AdvanceWave();
         var nextWave = Waves.GetCurrentWave();
 
+        if (nextWave is null)
+        {
+            // All waves completed!
+            GameOverVictory();
+            return;
+        }
 
         SpawnTimer.WaitTime = nextWave.SpawnDelay;
 
@@ -477,6 +483,15 @@ public class Map : Node2D
         GameOverMenu.SetScoreLabel(Waves.WaveDisplayNumber);
 
         GD.Print("Game over!");
+    }
+
+    public void GameOverVictory()
+    {
+        GetTree().Paused = true;
+        GameOverMenu.Visible = true;
+        GameOverMenu.ShowVictory(Waves.WaveDisplayNumber - 1);
+
+        GD.Print("Game over! - You win!");
     }
 
     public void TowerRandomiser_TowerRolled(TurretModel turret)

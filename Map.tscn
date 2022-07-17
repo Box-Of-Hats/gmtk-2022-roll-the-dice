@@ -17,7 +17,7 @@ _data = {
 pause_mode = 2
 script = ExtResource( 3 )
 MaxEnemyCount = 50
-Lives = 1
+Lives = 10
 
 [node name="Background" type="Sprite" parent="."]
 position = Vector2( 960, 540 )

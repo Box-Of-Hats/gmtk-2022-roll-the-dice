@@ -34,8 +34,16 @@ namespace gmtkjame2022rollthedice.Data
                 4, new EnemyModel()
                 {
                     SpritePath = "res://sprites/enemy-004.png",
-                    MoveSpeed = 100,
+                    MoveSpeed = 150,
                     HealthMultiplier = 5f
+                }
+            },
+            {
+                5, new EnemyModel()
+                {
+                    SpritePath = "res://sprites/enemy-005.png",
+                    MoveSpeed = 300,
+                    HealthMultiplier = 3f
                 }
             }
         };

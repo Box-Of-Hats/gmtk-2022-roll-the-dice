@@ -26,4 +26,12 @@ public class GameOverMenu : Node2D
         var mapScene = GD.Load<PackedScene>("res://MainMenu.tscn");
         GetTree().ChangeSceneTo(mapScene);
     }
+
+    public void ShowVictory(int waveNumber)
+    {
+        GetNode<Label>("Panel/GameOverTitle").Text = "Victory!";
+        GetNode<Label>("Panel/YouRanOutOfLives").Text = $"You beat all {waveNumber} waves!";
+        GetNode<Label>("Panel/ScoreLabel").Visible = false;
+    }
 }
+
