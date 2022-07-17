@@ -84,7 +84,7 @@ public class Enemy : Area2D
             if (HealthBar.CurrentHealth <= 0)
             {
                 // Enemy died
-                Die();
+                AnimationPlayer.Play("die");
             }
 
         }
@@ -92,7 +92,6 @@ public class Enemy : Area2D
 
     public void Die()
     {
-        AnimationPlayer.Play("die");
         EmitSignal(nameof(EnemyDied), this);
     }
 }

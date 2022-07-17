@@ -40,25 +40,12 @@ namespace gmtkjame2022rollthedice.Helpers
         /// <returns></returns>
         public static ImageTexture TextureFromImagePath(string imagePath)
         {
-            GD.Print("Loading image from path:", imagePath);
             var imageTexture = new ImageTexture();
             
             var image = GD.Load<Image>(imagePath);
             imageTexture.CreateFromImage(image);
 
             return imageTexture;
-
-
-            //var img = new Image();
-            //img.LoadPngFromBuffer(image.)
-            //imageTexture.CreateFromImage(image);
-            //return imageTexture;
-            //var image = new Image();
-            //image.Load(imagePath);
-
-            //var imageTexture = new ImageTexture();
-            //imageTexture.CreateFromImage(image);
-            //return imageTexture;
         }
 
     }

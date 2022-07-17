@@ -134,7 +134,6 @@ public class Map : Node2D
             //Remove path if enemy has reached the end
             if (enemyPath.Offset >= (totalLength - endPadding))
             {
-                GD.Print("Enemy reached the end!");
 
                 enemyPath.QueueFree();
 
@@ -236,7 +235,6 @@ public class Map : Node2D
 
 
             // Create a tower
-            GD.Print("Spawning turret with -", SelectedTurret.BottomSprite, SelectedTurret.TopSprite);
             SpawnTurret(mousePosition, SelectedTurret);
         }
 
@@ -354,6 +352,7 @@ public class Map : Node2D
     /// </summary>
     private void EndCurrentWave()
     {
+        SelectedTurret = null;
         Shop.Money += Waves.WaveDisplayNumber * 10;
 
         var currentWave = Waves.GetCurrentWave();
@@ -409,7 +408,6 @@ public class Map : Node2D
         var newBullet = BulletScene.Instance<Bullet>();
 
         newBullet.Damage = turret.Damage;
-        GD.Print("MAX COLLISIONS:", newBullet.MaxCollisions);
         newBullet.MaxCollisions = turret.MaxCollisions;
         //TODO: set scale permanently
 
@@ -473,7 +471,6 @@ public class Map : Node2D
 
     public void Shop_TurretSelected(TurretModel turret)
     {
-        GD.Print($"Selected turret - {turret.TopSprite}/{turret.BottomSprite}");
         SelectedTurret = turret;
         TowerPreview.Texture = Helpers.TextureFromImagePath(turret.BottomSprite);
     }
