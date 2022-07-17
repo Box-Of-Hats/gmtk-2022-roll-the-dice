@@ -409,6 +409,7 @@ public class Map : Node2D
         var newBullet = BulletScene.Instance<Bullet>();
 
         newBullet.Damage = turret.Damage;
+        GD.Print("MAX COLLISIONS:", newBullet.MaxCollisions);
         newBullet.MaxCollisions = turret.MaxCollisions;
         //TODO: set scale permanently
 
@@ -463,6 +464,7 @@ public class Map : Node2D
         newTurret.Cost = turret.Cost;
         newTurret.Damage = turret.Damage;
         newTurret.Range = turret.Range;
+        newTurret.MaxCollisions = turret.MaxCollisions;
 
         newTurret.Connect(nameof(Turret.TurretFired), this, nameof(Turret_Shoot));
 

@@ -181,17 +181,20 @@ public class TowerRandomiser : Node2D
         {
             // Cannon
             BulletSpeed = cannon.BulletSpeed,
-            Damage = cannon.Damage + cannonBase.Damage,
             RateOfFire = cannon.RateOfFire,
-            TopSprite = cannon.SpritePath,
-            Cost = cannon.Cost + cannonBase.Cost,
-            Range = cannon.Range + cannonBase.Range,
             BulletSize = cannon.BulletSize,
             MaxCollisions = cannon.MaxCollisions,
 
-
             // Base
             RotateSpeed = cannonBase.RotateSpeed,
+
+            // Combo
+            Damage = cannon.Damage + cannonBase.Damage,
+            Cost = cannon.Cost + cannonBase.Cost,
+            Range = cannon.Range + cannonBase.Range,
+
+            // Sprites
+            TopSprite = cannon.SpritePath,
             BottomSprite = cannonBase.SpritePath,
 
         };

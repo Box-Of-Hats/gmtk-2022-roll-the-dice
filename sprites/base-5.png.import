@@ -1,0 +1,13 @@
+[remap]
+
+importer="image"
+type="Image"
+path="res://.import/base-5.png-d7fbd24f961a6b048fef2b7a75a478b4.image"
+
+[deps]
+
+source_file="res://sprites/base-5.png"
+dest_files=[ "res://.import/base-5.png-d7fbd24f961a6b048fef2b7a75a478b4.image" ]
+
+[params]
+
