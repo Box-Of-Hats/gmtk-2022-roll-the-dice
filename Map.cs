@@ -154,8 +154,14 @@ public class Map : Node2D
             if (enemyToTarget.Position.DistanceSquaredTo(turret.Position) > turret.Range)
             {
                 // First Enemy is out of range for this turret. Fallback to the closest enemy
-                enemyToTarget = allEnemies.OrderBy(o => o.Position.DistanceSquaredTo(turret.Position))
+                enemyToTarget = allEnemies.OrderBy(o => o.Position.DistanceTo(turret.Position))
                     .FirstOrDefault();
+
+                if (enemyToTarget.Position.DistanceTo(turret.Position) > turret.Range)
+                {
+                    // All targets are out of range
+                    continue;
+                }
             }
 
             const float tau = (float)(Math.PI * 2f);

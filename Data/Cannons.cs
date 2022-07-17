@@ -11,7 +11,8 @@ namespace gmtkjame2022rollthedice.Data
             {
                 SpritePath = "res://sprites/base.png",
                 RotateSpeed = 0.05f,
-                Cost = 20
+                Cost = 20,
+                Range = 100
             },
             new CannonBase()
             {
@@ -26,7 +27,7 @@ namespace gmtkjame2022rollthedice.Data
                 RotateSpeed = 0.4f,
                 Cost = 50,
                 Range = 500,
-                Damage = 100
+                Damage = 2
             }
         };
 
