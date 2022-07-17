@@ -23,7 +23,9 @@ public class MainMenu : Control
 
     public void StartGame()
     {
-        GetTree().ChangeScene("res://map.tscn");
+        var mapScene = GD.Load<PackedScene>("res://Map.tscn");
+
+        GetTree().ChangeSceneTo(mapScene);
     }
 
     public void OpenTwitter() => OS.ShellOpen("https://twitter.com/Box_Of_Hats");

@@ -40,9 +40,9 @@ valign = 1
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 717.0
-margin_top = 336.0
+margin_top = 578.0
 margin_right = -1018.0
-margin_bottom = -581.0
+margin_bottom = -339.0
 rect_scale = Vector2( 3, 3 )
 size_flags_horizontal = 13
 __meta__ = {
@@ -80,3 +80,24 @@ custom_fonts/font = ExtResource( 1 )
 text = "@box-of-hats"
 icon = ExtResource( 5 )
 expand_icon = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Panel"]
+margin_left = 25.0
+margin_top = 967.0
+margin_right = 207.0
+margin_bottom = 1015.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/normal_font = ExtResource( 1 )
+text = "Built in 48 hours for GMTK Jam 2022"
+
+[node name="RichTextLabel2" type="RichTextLabel" parent="Panel"]
+margin_left = 495.0
+margin_top = 296.0
+margin_right = 1066.0
+margin_bottom = 487.0
+rect_scale = Vector2( 2, 2 )
+custom_fonts/normal_font = ExtResource( 1 )
+text = "- Defend from waves of enemies by building towers
+- Get new randomised towers by rolling tower dice
+- New dice are available every few waves
+- If you run out of lives, it's game over!"
