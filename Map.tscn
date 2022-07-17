@@ -102,7 +102,7 @@ align = 2
 [node name="TowerRandomiser" parent="." instance=ExtResource( 2 )]
 
 [node name="RangeIndicator" type="Sprite" parent="."]
-modulate = Color( 1, 1, 1, 0.0784314 )
+modulate = Color( 1, 1, 1, 0.352941 )
 position = Vector2( 154, 915 )
 texture = ExtResource( 6 )
 
