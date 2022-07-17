@@ -80,7 +80,6 @@ public class Enemy : Area2D
 
             // Notify the bullet it has collided
             bullet.UpdateCollisionCount();
-            //TODO: find why max collisions doesnt work!
 
             if (HealthBar.CurrentHealth <= 0)
             {
