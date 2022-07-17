@@ -14,7 +14,7 @@ namespace gmtkjame2022rollthedice.Models
         public int Damage { get; set; } = 1;
         public float RotateSpeed { get; set; } = 0.05f;
         public int Cost { get; set; } = 100;
-        public int Range { get; set; } = 1000;
+        public int Range { get; set; } = 400;
         public int MaxCollisions { get; set; } = 1;
     }
 }

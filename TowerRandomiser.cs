@@ -162,7 +162,6 @@ public class TowerRandomiser : Node2D
 
         EmitSignal(nameof(TowerAccepted), tower);
         Visible = false;
-        GetTree().Paused = false;
     }
 
     /// <summary>

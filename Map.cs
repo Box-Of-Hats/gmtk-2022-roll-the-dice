@@ -24,7 +24,8 @@ public class Map : Node2D
     public Button ContinueButton { get; set; }
     public Label WaveLabel { get; set; }
     public Label WaveBonusLabel { get; set; }
-
+    public Sprite RangeIndicator { get; set; }
+    public Sprite TowerPreview { get; set; }
 
     // Spawners
     public PackedScene EnemyScene { get; private set; }
@@ -77,6 +78,8 @@ public class Map : Node2D
         ContinueButton = GetNode<Button>("ContinueButton");
         WaveLabel = GetNode<Label>("HudContainer/WaveLabel");
         WaveBonusLabel = GetNode<Label>("HudContainer/WaveBonusLabel");
+        RangeIndicator = GetNode<Sprite>("RangeIndicator");
+        TowerPreview = GetNode<Sprite>("TowerPreview");
 
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
@@ -86,6 +89,9 @@ public class Map : Node2D
         // Add connections
         SpawnTimer.Connect("timeout", this, nameof(SpawnTimer_Timeout));
         SpawnTimer.Paused = true;
+
+        RangeIndicator.Visible = false;
+        TowerPreview.Visible = false;
 
         // Continue button
         ContinueButton.Connect("pressed", this, nameof(ContinueButton_Pressed));
@@ -175,9 +181,43 @@ public class Map : Node2D
             // Point the cannon at the enemy
             turret.Cannon.Rotation = desiredRotation;
         }
-
-        if (Input.IsActionJustPressed("place_tower"))
+        if (Input.IsActionPressed("place_tower"))
         {
+            // Show preview UI
+            if (SelectedTurret == null)
+            {
+                GD.Print("No turret selected");
+                return;
+            }
+
+            TowerPreview.Visible = true;
+
+            var mousePosition = GetLocalMousePosition();
+
+            if (!IsValidTurretPosition(mousePosition))
+            {
+                TowerPreview.SelfModulate = new Color("#ee000011");
+                RangeIndicator.Visible = false;
+
+            }
+            else
+            {
+                TowerPreview.SelfModulate = new Color("#ffffff11");
+                RangeIndicator.Visible = true;
+            }
+
+            RangeIndicator.Position = mousePosition;
+            TowerPreview.Position = mousePosition;
+            var scale = (SelectedTurret.Range / 64f) * 2f;
+            RangeIndicator.Scale = new Vector2(scale, scale);
+
+        }
+        else if (Input.IsActionJustReleased("place_tower"))
+        {
+            //Attempt to spawn tower
+            RangeIndicator.Visible = false;
+            TowerPreview.Visible = false;
+
             if (SelectedTurret == null)
             {
                 GD.Print("No turret selected");
@@ -185,43 +225,52 @@ public class Map : Node2D
             }
             var mousePosition = GetLocalMousePosition();
 
-            if (SpawnBlocker.GetRect().HasPoint(mousePosition))
+            if (!IsValidTurretPosition(mousePosition))
             {
-                // Click is within the spawn blocker
-                GD.Print("Invalid turret location. Area cannot be within spawn blocker");
+                // Invalid tower position
                 return;
             }
 
-
-            // Check position isn't on the path
-            const float pathWidth = 30;
-            const float turretWidth = 128;
-            const float pathDeadZone = turretWidth / 2 + pathWidth;
-
-            var closestPathPoint = EnemyPath.Curve.GetClosestPoint(mousePosition);
-
-            var distanceToPath = mousePosition.DistanceTo(closestPathPoint);
-
-            if (distanceToPath < pathDeadZone)
-            {
-                GD.Print($"Cannot place tower - too close to path ({distanceToPath})");
-                return;
-            }
-
-            // Check position doesnt overlap any other towers
-            var (closestTurret, turretDistance) = GetNearestTurret(mousePosition);
-            GD.Print(turretDistance);
-            if (turretDistance < turretWidth)
-            {
-                GD.Print($"Cannot place tower - too close to tower ({turretDistance})");
-                return;
-            }
 
             // Create a tower
             GD.Print("Spawning turret with -", SelectedTurret.BottomSprite, SelectedTurret.TopSprite);
             SpawnTurret(mousePosition, SelectedTurret);
         }
 
+    }
+
+    public bool IsValidTurretPosition(Vector2 position)
+    {
+        var mousePosition = GetLocalMousePosition();
+
+        if (SpawnBlocker.GetRect().HasPoint(mousePosition))
+        {
+            // Click is within the spawn blocker
+            return false;
+        }
+
+        // Check position isn't on the path
+        const float pathWidth = 30;
+        const float turretWidth = 128;
+        const float pathDeadZone = turretWidth / 2 + pathWidth;
+
+        var closestPathPoint = EnemyPath.Curve.GetClosestPoint(mousePosition);
+
+        var distanceToPath = mousePosition.DistanceTo(closestPathPoint);
+
+        if (distanceToPath < pathDeadZone)
+        {
+            return false;
+        }
+
+        // Check position doesnt overlap any other towers
+        var (closestTurret, turretDistance) = GetNearestTurret(mousePosition);
+        if (turretDistance < turretWidth)
+        {
+            return false; ;
+        }
+
+        return true;
     }
 
     /// <summary>
@@ -317,6 +366,11 @@ public class Map : Node2D
             bullet.QueueFree();
         }
 
+        // Hide ui elements
+        RangeIndicator.Visible = false;
+        TowerPreview.Visible = false;
+
+
         // Advance to the next wave of enemies
         Waves.AdvanceWave();
         var nextWave = Waves.GetCurrentWave();
@@ -410,6 +464,7 @@ public class Map : Node2D
     {
         GD.Print($"Selected turret - {turret.TopSprite}/{turret.BottomSprite}");
         SelectedTurret = turret;
+        TowerPreview.Texture = Helpers.TextureFromImagePath(turret.BottomSprite);
     }
 
     public void GameOver()
