@@ -53,8 +53,10 @@ margin_right = 164.0
 margin_bottom = 140.0
 
 [node name="MoneyLabel" type="Label" parent="."]
+margin_top = -2.0
 margin_right = 40.0
-margin_bottom = 14.0
+margin_bottom = 17.0
+rect_scale = Vector2( 1.2, 1.2 )
 custom_fonts/font = ExtResource( 3 )
 text = "2000"
 
