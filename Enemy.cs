@@ -56,6 +56,8 @@ public class Enemy : Area2D
 
   public override void _Process(float delta)
   {
+    var hasTakenDamage = false;
+
     // Check if the enemy has been shot
     foreach (PhysicsBody2D body in GetOverlappingBodies())
     {
@@ -87,15 +89,33 @@ public class Enemy : Area2D
 
       // Notify the bullet it has collided
       bullet.UpdateCollisionCount();
+      hasTakenDamage = true;
 
-      if (HealthBar.CurrentHealth <= 0)
+    }
+
+    if (HealthBar.CurrentHealth <= 0)
+    {
+      // Enemy died
+      AnimationPlayer.Play("die");
+      if (!DeathSoundAudioPlayer.Playing)
       {
-        // Enemy died
-        AnimationPlayer.Play("die");
         DeathSoundAudioPlayer.Play();
       }
 
     }
+    else if (hasTakenDamage)
+    {
+      AnimationPlayer.Play("damage");
+    }
+    else
+    {
+      if (!AnimationPlayer.IsPlaying())
+      {
+        AnimationPlayer.Play("walk");
+      }
+    }
+
+
   }
 
   public void Die()
