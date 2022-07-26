@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace gmtkjame2022rollthedice.Data
 {
-  public static class CannonData
-  {
-    public static List<CannonBase> CannonBases = new List<CannonBase>()
+    public static class CannonData
+    {
+        public static List<CannonBase> CannonBases = new List<CannonBase>()
         {
             new CannonBase()
             {
@@ -55,7 +55,7 @@ namespace gmtkjame2022rollthedice.Data
         };
 
 
-    public static List<Cannon> Cannons = new List<Cannon>()
+        public static List<Cannon> Cannons = new List<Cannon>()
     {
         // Basic
         new Cannon()
@@ -122,6 +122,6 @@ namespace gmtkjame2022rollthedice.Data
     };
 
 
-  }
+    }
 
 }

@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace gmtkjame2022rollthedice.Data
 {
-  public static class Enemies
-  {
-    public static Dictionary<int, EnemyModel> All = new Dictionary<int, EnemyModel>()
+    public static class Enemies
+    {
+        public static Dictionary<int, EnemyModel> All = new Dictionary<int, EnemyModel>()
         {
             {
                 1,  new EnemyModel()
@@ -48,5 +48,5 @@ namespace gmtkjame2022rollthedice.Data
             }
         };
 
-  }
+    }
 }

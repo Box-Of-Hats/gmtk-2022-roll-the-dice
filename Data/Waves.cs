@@ -2,15 +2,15 @@
 
 namespace gmtkjame2022rollthedice.Data
 {
-  public class Waves
-  {
-    private int _waveNo = 0;
+    public class Waves
+    {
+        private int _waveNo = 0;
 
-    public int WaveDisplayNumber => _waveNo + 1;
+        public int WaveDisplayNumber => _waveNo + 1;
 
-    public int TotalWaveCount => _all.Count;
+        public int TotalWaveCount => _all.Count;
 
-    private readonly List<Wave> _all = new List<Wave>()
+        private readonly List<Wave> _all = new List<Wave>()
         {
             new Wave(new []{ 1,1,1      }, diceReward: true),
             new Wave(new []{ 1,1,1,1,1  }),
@@ -38,38 +38,38 @@ namespace gmtkjame2022rollthedice.Data
 
            };
 
-    public Wave GetNextWave()
-    {
-      _waveNo += 1;
-      return _all[_waveNo];
+        public Wave GetNextWave()
+        {
+            _waveNo += 1;
+            return _all[_waveNo];
+        }
+
+        public Wave GetCurrentWave()
+        {
+            if (_waveNo >= _all.Count)
+            {
+                // All waves completed!
+                return null;
+            }
+
+            return _all[_waveNo];
+        }
+
+        public void AdvanceWave()
+        {
+            _waveNo += 1;
+        }
+
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="waveNo">0-indexed wave number</param>
+        /// <returns></returns>
+        private Wave GetWave(int waveNo)
+        {
+            return _all[waveNo];
+        }
+
     }
-
-    public Wave GetCurrentWave()
-    {
-      if (_waveNo >= _all.Count)
-      {
-        // All waves completed!
-        return null;
-      }
-
-      return _all[_waveNo];
-    }
-
-    public void AdvanceWave()
-    {
-      _waveNo += 1;
-    }
-
-    /// <summary>
-    ///
-    /// </summary>
-    /// <param name="waveNo">0-indexed wave number</param>
-    /// <returns></returns>
-    private Wave GetWave(int waveNo)
-    {
-      return _all[waveNo];
-    }
-
-  }
 
 }

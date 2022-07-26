@@ -35,7 +35,8 @@ public class Shop : Node2D
                 if (value > _money)
                 {
                     AnimationPlayer.Play("MoneyUp");
-                } else
+                }
+                else
                 {
                     AnimationPlayer.Play("MoneyDown");
                 }
