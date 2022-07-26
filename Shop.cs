@@ -75,6 +75,11 @@ public class Shop : Node2D
     public void Button_Pressed(TowerButton button)
     {
         GD.Print("Pressed button (shop): ", button.Turret.TopSprite, button.Turret.BottomSprite);
+        if (button.Turret.Cost > Money)
+        {
+            // Player can't afford this tower
+            return;
+        }
 
         EmitSignal(nameof(TurretSelected), button.Turret);
 
