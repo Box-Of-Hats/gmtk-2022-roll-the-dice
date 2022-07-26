@@ -29,6 +29,7 @@ public class Map : Node2D
     public AnimationPlayer AnimationPlayer { get; set; }
     public AudioStreamPlayer HurtSoundAudioPlayer { get; private set; }
     public GameOverMenu GameOverMenu { get; set; }
+    public EnemyPreview EnemyPreview { get; set; }
 
     // Spawners
     public PackedScene EnemyScene { get; private set; }
@@ -86,6 +87,8 @@ public class Map : Node2D
         GameOverMenu = GetNode<GameOverMenu>("GameOverMenu");
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
         HurtSoundAudioPlayer = GetNode<AudioStreamPlayer>("Sounds/PlayerDamage");
+        EnemyPreview = GetNode<EnemyPreview>("EnemyPreview");
+
         // Load scenes
         EnemyScene = GD.Load<PackedScene>("res://Enemy.tscn");
         BulletScene = GD.Load<PackedScene>("res://Bullet.tscn");
@@ -333,7 +336,6 @@ public class Map : Node2D
             return;
         }
 
-
         // Create new enemy instance
         var enemy = EnemyScene.Instance<Enemy>();
         enemy.EnemyModel = nextWaveEnemy;
@@ -350,6 +352,10 @@ public class Map : Node2D
 
         // Add enemy with path to the main node
         EnemyPath.AddChild(followPath);
+
+        // Update enemy previews
+        var remainingEnemies = Waves.GetCurrentWave().GetRemainingEnemies();
+        EnemyPreview.LoadEnemyList(remainingEnemies);
     }
 
     /// <summary>
@@ -381,13 +387,13 @@ public class Map : Node2D
         // Advance to the next wave of enemies
         Waves.AdvanceWave();
         var nextWave = Waves.GetCurrentWave();
-
         if (nextWave is null)
         {
             // All waves completed!
             GameOverVictory();
             return;
         }
+        EnemyPreview.LoadEnemyList(nextWave.GetRemainingEnemies());
 
         SpawnTimer.WaitTime = nextWave.SpawnDelay;
 

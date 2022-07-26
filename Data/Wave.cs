@@ -9,7 +9,7 @@ namespace gmtkjame2022rollthedice.Data
         /// <summary>
         /// An ordered list of enemy IDs to spawn
         /// </summary>
-        public List<int> Enemies;
+        private List<int> _enemies;
 
         private int _enemyIndex = -1;
 
@@ -30,7 +30,7 @@ namespace gmtkjame2022rollthedice.Data
 
         public Wave(IEnumerable<int> enemies, float spawnDelay = 3f, bool diceReward = false)
         {
-            Enemies = enemies.ToList();
+            _enemies = enemies.ToList();
             SpawnDelay = spawnDelay;
             DiceReward = diceReward;
         }
@@ -39,15 +39,26 @@ namespace gmtkjame2022rollthedice.Data
         {
             _enemyIndex += 1;
 
-            if (_enemyIndex >= this.Enemies.Count)
+            if (_enemyIndex >= this._enemies.Count)
             {
                 // No more enemies in the wave
                 return null;
             }
 
-            var enemyId = Enemies[_enemyIndex];
+            var enemyId = _enemies[_enemyIndex];
 
             return Data.Enemies.All[enemyId];
+        }
+
+
+        /// <summary>
+        /// Get a list of enemies that will spawn in this wave
+        /// </summary>
+        /// <returns></returns>
+        public IEnumerable<EnemyModel> GetRemainingEnemies()
+        {
+            return this._enemies.Skip(_enemyIndex + 1)
+                                .Select(enemyId => Data.Enemies.All[enemyId]);
         }
     }
 }
