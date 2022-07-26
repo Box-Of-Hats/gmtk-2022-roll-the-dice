@@ -3,13 +3,7 @@
 [ext_resource path="res://TowerButton.cs" type="Script" id=2]
 [ext_resource path="res://TurretStats.tscn" type="PackedScene" id=4]
 
-[sub_resource type="StyleBoxLine" id=1]
-content_margin_left = 0.0
-content_margin_right = 0.0
-content_margin_top = 0.0
-content_margin_bottom = 2.0
-color = Color( 0.905882, 1, 0.45098, 1 )
-thickness = 2
+[sub_resource type="StyleBoxEmpty" id=1]
 
 [node name="TowerButton" type="Button"]
 margin_right = 80.0

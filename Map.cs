@@ -190,49 +190,20 @@ public class Map : Node2D
       // Point the cannon at the enemy
       turret.Cannon.Rotation = desiredRotation;
     }
-    if (Input.IsActionPressed("place_tower"))
+
+    if (SelectedTurret is null)
     {
-      // Show preview UI
-      if (SelectedTurret == null)
-      {
-        GD.Print("No turret selected");
-        return;
-      }
-
-      TowerPreview.Visible = true;
-
-      var mousePosition = GetLocalMousePosition();
-
-      if (!IsValidTurretPosition(mousePosition))
-      {
-        TowerPreview.SelfModulate = new Color("#ee000011");
-        RangeIndicator.Visible = false;
-
-      }
-      else
-      {
-        TowerPreview.SelfModulate = new Color("#ffffff11");
-        RangeIndicator.Visible = true;
-      }
-
-      RangeIndicator.Position = mousePosition;
-      TowerPreview.Position = mousePosition;
-      var scale = (SelectedTurret.Range / 64f) * 2f;
-      RangeIndicator.Scale = new Vector2(scale, scale);
-
+      // No turret selected
+      return;
     }
-    else if (Input.IsActionJustReleased("place_tower"))
+
+
+    var mousePosition = GetLocalMousePosition();
+    if (Input.IsActionJustReleased("place_tower"))
     {
-      //Attempt to spawn tower
+      //User has clicked - attempt to spawn tower
       RangeIndicator.Visible = false;
       TowerPreview.Visible = false;
-
-      if (SelectedTurret == null)
-      {
-        GD.Print("No turret selected");
-        return;
-      }
-      var mousePosition = GetLocalMousePosition();
 
       if (!IsValidTurretPosition(mousePosition))
       {
@@ -243,8 +214,35 @@ public class Map : Node2D
 
       // Create a tower
       SpawnTurret(mousePosition, SelectedTurret);
+      return;
     }
 
+    drawTurretPreview(mousePosition);
+  }
+
+  /// <summary>
+  /// Render the turret preview to the scrren
+  /// </summary>
+  private void drawTurretPreview(Vector2 position)
+  {
+    TowerPreview.Visible = true;
+
+    if (!IsValidTurretPosition(position))
+    {
+      TowerPreview.SelfModulate = new Color("#ee000011");
+      RangeIndicator.Visible = false;
+
+    }
+    else
+    {
+      TowerPreview.SelfModulate = new Color("#ffffff11");
+      RangeIndicator.Visible = true;
+    }
+
+    RangeIndicator.Position = position;
+    TowerPreview.Position = position;
+    var scale = (SelectedTurret.Range / 64f) * 2f;
+    RangeIndicator.Scale = new Vector2(scale, scale);
   }
 
   public bool IsValidTurretPosition(Vector2 position)
@@ -474,6 +472,8 @@ public class Map : Node2D
     newTurret.Connect(nameof(Turret.TurretFired), this, nameof(Turret_Shoot));
 
     Turrets.AddChild(newTurret);
+
+    SelectedTurret = null;
   }
 
   public void Shop_TurretSelected(TurretModel turret)
