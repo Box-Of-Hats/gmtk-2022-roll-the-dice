@@ -1,12 +1,13 @@
 ﻿using gmtkjame2022rollthedice.Interfaces;
+using Godot;
 
 namespace gmtkjame2022rollthedice.Models
 {
-    public class EnemyModel : IHasSpritePath
+    public class EnemyModel : IHasTexture
     {
         public float HealthMultiplier { get; set; } = 1f;
 
-        public string SpritePath { get; set; }
+        public Texture SpriteTexture { get; set; }
 
         /// <summary>
         /// e.g 150 (100-500 range)

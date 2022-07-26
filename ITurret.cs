@@ -1,4 +1,5 @@
 ﻿using gmtkjame2022rollthedice.Interfaces;
+using Godot;
 
 namespace gmtkjame2022rollthedice
 {
@@ -13,8 +14,8 @@ namespace gmtkjame2022rollthedice
         IHasMaxCollisions
     {
         // Sprites
-        string TopSprite { get; set; }
-        string BottomSprite { get; set; }
+        Texture TopSprite { get; set; }
+        Texture BottomSprite { get; set; }
     }
 
 }

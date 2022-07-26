@@ -9,7 +9,6 @@
 [ext_resource path="res://GameOverMenu.tscn" type="PackedScene" id=7]
 [ext_resource path="res://sprites/play.png" type="Texture" id=8]
 [ext_resource path="res://audio/hitHurt.wav" type="AudioStream" id=9]
-[ext_resource path="res://LoadTester.tscn" type="PackedScene" id=10]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -128,7 +127,7 @@ margin_bottom = 956.0
 rect_scale = Vector2( 2, 2 )
 mouse_filter = 2
 custom_fonts/normal_font = ExtResource( 5 )
-text = "TOWER STATS 
+text = "TOWER STATS
 DMG - Damage per shot
 ROF - Time between each shot
 PEN - Bullet penetration
@@ -160,5 +159,3 @@ anims/lose-life = SubResource( 2 )
 [node name="PlayerDamage" type="AudioStreamPlayer" parent="Sounds"]
 stream = ExtResource( 9 )
 volume_db = -10.0
-
-[node name="LoadTester" parent="." instance=ExtResource( 10 )]

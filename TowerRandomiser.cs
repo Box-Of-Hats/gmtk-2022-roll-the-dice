@@ -40,7 +40,7 @@ public class TowerRandomiser : Node2D
     public override void _Ready()
     {
 
-        // Nodes 
+        // Nodes
         RollButton = GetNode<Button>("RollButton");
         AcceptButton = GetNode<Button>("AcceptButton");
         ReRollButton = GetNode<Button>("ReRollButton");
@@ -69,8 +69,9 @@ public class TowerRandomiser : Node2D
 
 
         // Set sprites of the dice image
-        GetNode<Sprite>("DiceImage/Base/Fg").Texture = Helpers.TextureFromImagePath("res://sprites/base-3.png");
-        GetNode<Sprite>("DiceImage/Top/Fg").Texture = Helpers.TextureFromImagePath("res://sprites/top-4.png");
+        var initialRandomTower = TowerRandomiser.GetRandomTower();
+        GetNode<Sprite>("DiceImage/Base/Fg").Texture = initialRandomTower.BottomSprite;
+        GetNode<Sprite>("DiceImage/Top/Fg").Texture = initialRandomTower.TopSprite;
 
         TowerRandomiserShown();
 
@@ -105,11 +106,11 @@ public class TowerRandomiser : Node2D
         BaseDice.Visible = true;
 
         // Randomise order of sprite list
-        TopDice.Sprites = CannonData.Cannons.Select(c => c.SpritePath)
+        TopDice.Sprites = CannonData.Cannons.Select(c => c.SpriteTexture)
                                 .OrderBy(a => Guid.NewGuid())
                                 .ToList();
 
-        BaseDice.Sprites = CannonData.CannonBases.Select(c => c.SpritePath)
+        BaseDice.Sprites = CannonData.CannonBases.Select(c => c.SpriteTexture)
                         .OrderBy(a => Guid.NewGuid())
                         .ToList();
 
@@ -121,11 +122,11 @@ public class TowerRandomiser : Node2D
     /// <summary>
     /// Called after dice have finished roll animation
     /// </summary>
-    public void TopDice_RollFinished(string spritePath)
+    public void TopDice_RollFinished(Texture spritePath)
     {
         //TODO: Show re-roll button
         AcceptButton.Visible = true;
-        CannonTop = CannonData.Cannons.FirstOrDefault(o => o.SpritePath == spritePath);
+        CannonTop = CannonData.Cannons.FirstOrDefault(o => o.SpriteTexture == spritePath);
 
         EmitSignal(nameof(TowerRolled), TopDice.CurrentSprite());
     }
@@ -133,11 +134,11 @@ public class TowerRandomiser : Node2D
     /// <summary>
     /// Called after dice have finished roll animation
     /// </summary>
-    public void BaseDice_RollFinished(string spritePath)
+    public void BaseDice_RollFinished(Texture spritePath)
     {
         //TODO: Show re-roll button???
         AcceptButton.Visible = true;
-        CannonBase = CannonData.CannonBases.FirstOrDefault(o => o.SpritePath == spritePath);
+        CannonBase = CannonData.CannonBases.FirstOrDefault(o => o.SpriteTexture == spritePath);
 
         EmitSignal(nameof(TowerRolled), BaseDice.CurrentSprite());
         ShowPreview();
@@ -146,8 +147,8 @@ public class TowerRandomiser : Node2D
     public void ShowPreview()
     {
         // Update preview image
-        TurretPreview.CannonBase.Texture = Helpers.TextureFromImagePath(CannonBase.SpritePath);
-        TurretPreview.Cannon.Texture = Helpers.TextureFromImagePath(CannonTop.SpritePath);
+        TurretPreview.CannonBase.Texture = CannonBase.SpriteTexture;
+        TurretPreview.Cannon.Texture = CannonTop.SpriteTexture;
 
         InfoLabel.Text = "New tower unlocked!";
 
@@ -194,8 +195,8 @@ public class TowerRandomiser : Node2D
             Range = cannon.Range + cannonBase.Range,
 
             // Sprites
-            TopSprite = cannon.SpritePath,
-            BottomSprite = cannonBase.SpritePath,
+            TopSprite = cannon.SpriteTexture,
+            BottomSprite = cannonBase.SpriteTexture,
 
         };
         return turret;
@@ -217,6 +218,6 @@ public class TowerRandomiser : Node2D
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     //  public override void _Process(float delta)
     //  {
-    //      
+    //
     //  }
 }

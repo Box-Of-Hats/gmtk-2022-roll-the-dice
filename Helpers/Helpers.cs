@@ -38,7 +38,7 @@ namespace gmtkjame2022rollthedice.Helpers
         /// </summary>
         /// <param name="imagePath"></param>
         /// <returns></returns>
-        public static ImageTexture TextureFromImagePath(string imagePath)
+        public static ImageTexture LoadTextureFromImagePath(string imagePath)
         {
             var imageTexture = new ImageTexture();
 

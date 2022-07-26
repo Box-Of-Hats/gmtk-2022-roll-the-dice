@@ -28,8 +28,8 @@ public class Turret : Node2D, ITurret
     public Timer ShootTimer { get; set; }
 
 
-    public string TopSprite { get; set; }
-    public string BottomSprite { get; set; }
+    public Texture TopSprite { get; set; }
+    public Texture BottomSprite { get; set; }
     public int Cost { get; set; }
     public int Range { get; set; }
     public int Damage { get; set; }
@@ -46,9 +46,9 @@ public class Turret : Node2D, ITurret
         ShootTimer = GetNode<Timer>("ShootTimer");
 
 
-        Cannon.Texture = Helpers.TextureFromImagePath(TopSprite);
+        Cannon.Texture = TopSprite;
 
-        CannonBase.Texture = Helpers.TextureFromImagePath(BottomSprite);
+        CannonBase.Texture = BottomSprite;
 
 
         // Connections
@@ -63,7 +63,7 @@ public class Turret : Node2D, ITurret
     }
 
     /// <summary>
-    /// Play a shooting animation. 
+    /// Play a shooting animation.
     /// </summary>
     public void Shoot()
     {

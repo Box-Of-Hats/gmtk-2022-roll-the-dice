@@ -479,7 +479,7 @@ public class Map : Node2D
     public void Shop_TurretSelected(TurretModel turret)
     {
         SelectedTurret = turret;
-        TowerPreview.Texture = Helpers.TextureFromImagePath(turret.BottomSprite);
+        TowerPreview.Texture = turret.BottomSprite;
     }
 
     public void GameOver()

@@ -41,7 +41,7 @@ public class Enemy : Area2D
         HealthBar.MaxHealth = InitialHealth;
         HealthBar.CurrentHealth = InitialHealth;
 
-        Sprite.Texture = Helpers.TextureFromImagePath(EnemyModel.SpritePath);
+        Sprite.Texture = EnemyModel.SpriteTexture;
 
         AnimationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
 

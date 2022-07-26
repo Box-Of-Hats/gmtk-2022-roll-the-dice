@@ -1,11 +1,11 @@
 ﻿using gmtkjame2022rollthedice.Interfaces;
+using Godot;
 
 namespace gmtkjame2022rollthedice.Models
 {
     public class Cannon : ICannon
     {
-        public string SpritePath { get; set; }
-
+        public Texture SpriteTexture { get; set; }
 
 
         public float BulletSize { get; set; } = 1;

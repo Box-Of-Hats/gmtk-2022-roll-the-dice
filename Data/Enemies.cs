@@ -1,4 +1,5 @@
 ﻿using gmtkjame2022rollthedice.Models;
+using gmtkjame2022rollthedice.Helpers;
 using System.Collections.Generic;
 
 namespace gmtkjame2022rollthedice.Data
@@ -10,14 +11,14 @@ namespace gmtkjame2022rollthedice.Data
             {
                 1,  new EnemyModel()
                {
-                    SpritePath = "res://sprites/enemy-001.png",
+                    SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/enemy-001.png"),
                     MoveSpeed = 100
                 }
             },
             {
                 2, new EnemyModel()
                 {
-                    SpritePath = "res://sprites/enemy-002.png",
+                    SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/enemy-002.png"),
                     MoveSpeed= 100,
                     HealthMultiplier = 1.5f
                 }
@@ -25,7 +26,7 @@ namespace gmtkjame2022rollthedice.Data
             {
                 3, new EnemyModel()
                 {
-                    SpritePath = "res://sprites/enemy-003.png",
+                    SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/enemy-003.png"),
                     MoveSpeed = 400,
                     HealthMultiplier = 0.7f
                 }
@@ -33,7 +34,7 @@ namespace gmtkjame2022rollthedice.Data
             {
                 4, new EnemyModel()
                 {
-                    SpritePath = "res://sprites/enemy-004.png",
+                    SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/enemy-004.png"),
                     MoveSpeed = 150,
                     HealthMultiplier = 5f
                 }
@@ -41,7 +42,7 @@ namespace gmtkjame2022rollthedice.Data
             {
                 5, new EnemyModel()
                 {
-                    SpritePath = "res://sprites/enemy-005.png",
+                    SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/enemy-005.png"),
                     MoveSpeed = 300,
                     HealthMultiplier = 3f
                 }

@@ -1,11 +1,12 @@
-﻿namespace gmtkjame2022rollthedice.Interfaces
+﻿using Godot;
+
+namespace gmtkjame2022rollthedice.Interfaces
 {
-    public interface IHasSpritePath
+    public interface IHasTexture
     {
         /// <summary>
-        /// The absolute path to an image sprite
-        /// e.g res://sprites/icon.png
+        /// A pre-loaded sprite texture
         /// </summary>
-        string SpritePath { get; set; }
+        Texture SpriteTexture { get; set; }
     }
 }

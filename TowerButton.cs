@@ -34,10 +34,10 @@ public class TowerButton : Button
 
         // Set turret image to match the loaded turret
         // Top
-        TopSprite.Texture = Helpers.TextureFromImagePath(Turret.TopSprite);
+        TopSprite.Texture = Turret.TopSprite;
 
         // Bottom
-        BottomSprite.Texture = Helpers.TextureFromImagePath(Turret.BottomSprite);
+        BottomSprite.Texture = Turret.BottomSprite;
 
         CostLabel.Text = $"${Turret.Cost}";
         DamageLabel.Text = $"{Turret.Damage} dmg";
@@ -48,6 +48,6 @@ public class TowerButton : Button
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     //  public override void _Process(float delta)
     //  {
-    //      
+    //
     //  }
 }

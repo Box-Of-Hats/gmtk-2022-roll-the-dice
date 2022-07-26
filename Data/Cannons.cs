@@ -9,21 +9,21 @@ namespace gmtkjame2022rollthedice.Data
         {
             new CannonBase()
             {
-                SpritePath = "res://sprites/base.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base.png"),
                 RotateSpeed = 0.05f,
                 Cost = 20,
                 Range = 100
             },
             new CannonBase()
             {
-                SpritePath = "res://sprites/base-2.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base-2.png"),
                 RotateSpeed = 0.05f,
                 Cost = 50,
                 Range = 250
             },
             new CannonBase()
             {
-                SpritePath = "res://sprites/base-3.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base-3.png"),
                 RotateSpeed = 0.2f,
                 Cost = 60,
                 Range = 50,
@@ -32,14 +32,14 @@ namespace gmtkjame2022rollthedice.Data
 
             new CannonBase()
             {
-                SpritePath = "res://sprites/base-4.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base-4.png"),
                 RotateSpeed = 0.1f,
                 Cost = 45,
                 Range = 200
             },
             new CannonBase()
             {
-                SpritePath = "res://sprites/base-5.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base-5.png"),
                 RotateSpeed = 0.01f,
                 Cost = 50,
                 Range = 100,
@@ -47,7 +47,7 @@ namespace gmtkjame2022rollthedice.Data
             },
             new CannonBase()
             {
-                SpritePath = "res://sprites/base-6.png",
+                SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/base-6.png"),
                 RotateSpeed = 0.15f,
                 Cost = 55,
                 Range = 270
@@ -60,7 +60,7 @@ namespace gmtkjame2022rollthedice.Data
         // Basic
         new Cannon()
         {
-            SpritePath = "res://sprites/top.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top.png"),
             Cost = 110,
             Damage = 1,
             RateOfFire = 1f,
@@ -69,7 +69,7 @@ namespace gmtkjame2022rollthedice.Data
         // Rapid fire
         new Cannon()
         {
-            SpritePath = "res://sprites/top-2.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top-2.png"),
             Cost = 150,
             Damage = 1,
             RateOfFire = 0.5f,
@@ -78,7 +78,7 @@ namespace gmtkjame2022rollthedice.Data
         // Sniper
         new Cannon()
         {
-            SpritePath = "res://sprites/top-3.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top-3.png"),
             Cost = 160,
             BulletSpeed = 3000,
             Range = 800,
@@ -89,7 +89,7 @@ namespace gmtkjame2022rollthedice.Data
         // Slow pulse cannon
         new Cannon()
         {
-            SpritePath = "res://sprites/top-4.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top-4.png"),
             Cost = 140,
             BulletSpeed = 160,
             Damage = 3,
@@ -99,7 +99,7 @@ namespace gmtkjame2022rollthedice.Data
         // Railgun
         new Cannon()
         {
-            SpritePath = "res://sprites/top-5.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top-5.png"),
             Cost = 155,
             BulletSpeed = 800,
             Damage = 2,
@@ -110,7 +110,7 @@ namespace gmtkjame2022rollthedice.Data
         // Sprayer
         new Cannon()
         {
-            SpritePath = "res://sprites/top-6.png",
+            SpriteTexture = Helpers.Helpers.LoadTextureFromImagePath("res://sprites/top-6.png"),
             Cost = 200,
             BulletSpeed = 500,
             Damage = 1,

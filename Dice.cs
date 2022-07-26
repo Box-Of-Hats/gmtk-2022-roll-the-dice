@@ -6,12 +6,12 @@ using System.Collections.Generic;
 public class Dice : RigidBody2D
 {
     [Signal]
-    public delegate void RollFinished(string spritePath);
+    public delegate void RollFinished(Texture spritePath);
 
     public AnimationPlayer AnimationPlayer { get; set; }
 
 
-    public List<string> Sprites = new List<string>();
+    public List<Texture> Sprites = new List<Texture>();
 
     public Sprite Icon { get; set; }
 
@@ -41,14 +41,14 @@ public class Dice : RigidBody2D
     public void NextSprite()
     {
         SpriteIndex = (SpriteIndex + 1) % Sprites.Count;
-        Icon.Texture = Helpers.TextureFromImagePath(Sprites[SpriteIndex]);
+        Icon.Texture = Sprites[SpriteIndex];
     }
 
     /// <summary>
     /// Get the currently rolled sprite
     /// </summary>
     /// <returns></returns>
-    public string CurrentSprite()
+    public Texture CurrentSprite()
     {
         return Sprites[SpriteIndex];
     }
@@ -56,6 +56,6 @@ public class Dice : RigidBody2D
     //  // Called every frame. 'delta' is the elapsed time since the previous frame.
     //  public override void _Process(float delta)
     //  {
-    //      
+    //
     //  }
 }
